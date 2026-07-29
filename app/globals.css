@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0b0f0d;
+
+  /* Ink — near-black, for text and strong contrast (not a dark surface color) */
+  --color-ink-950: #0b0f0d;
+  --color-ink-900: #14201b;
+  --color-ink-800: #1f2f28;
+  --color-ink-700: #33473e;
+
+  /* Brand green scale — derived from the real Velox Team logo green (#078150) */
+  --color-brand-900: #062617; /* deepest, rarely used */
+  --color-brand-800: #0a4a2c; /* verde oscuro: sidebar, hero, encabezados */
+  --color-brand-700: #0c5e37; /* hover sobre verde oscuro */
+  --color-brand-600: #128a4f; /* verde medio: botones, links activos, íconos */
+  --color-brand-500: #17a35f; /* hover sobre verde medio */
+  --color-brand-300: #8ed8ac; /* verde claro: gráficos, indicadores */
+  --color-brand-100: #ddf2e5; /* verde pastel: tarjetas suaves, estados positivos */
+  --color-brand-50: #f1faf5; /* fondos de sección apenas teñidos */
+
+  /* Neutral grays — support only */
+  --color-mist-50: #fafbfa;
+  --color-mist-100: #f4f6f5;
+  --color-mist-200: #e6e9e7;
+  --color-mist-300: #d2d7d4;
+
+  /* Semantic status colors (gris = pendiente/sin info, verde = positivo, rojo suave = alerta) */
+  --color-status-pending-bg: #eceeed;
+  --color-status-pending-fg: #4b544e;
+  --color-status-ok-bg: #ddf2e5;
+  --color-status-ok-fg: #0a4a2c;
+  --color-status-review-bg: #eceeed;
+  --color-status-review-fg: #4b544e;
+  --color-status-overdue-bg: #fbe9e6;
+  --color-status-overdue-fg: #a5392a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-ink-950: var(--color-ink-950);
+  --color-ink-900: var(--color-ink-900);
+  --color-ink-800: var(--color-ink-800);
+  --color-ink-700: var(--color-ink-700);
+
+  --color-brand-900: var(--color-brand-900);
+  --color-brand-800: var(--color-brand-800);
+  --color-brand-700: var(--color-brand-700);
+  --color-brand-600: var(--color-brand-600);
+  --color-brand-500: var(--color-brand-500);
+  --color-brand-300: var(--color-brand-300);
+  --color-brand-100: var(--color-brand-100);
+  --color-brand-50: var(--color-brand-50);
+
+  --color-mist-50: var(--color-mist-50);
+  --color-mist-100: var(--color-mist-100);
+  --color-mist-200: var(--color-mist-200);
+  --color-mist-300: var(--color-mist-300);
+
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-space-grotesk);
+  --font-brand: var(--font-brand);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
