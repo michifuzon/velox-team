@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Manrope, Bitter } from "next/font/google";
 import "./globals.css";
 
+const deploymentHost =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  process.env.VERCEL_PROJECT_PRODUCTION_URL ??
+  process.env.VERCEL_URL ??
+  "veloxteam.app";
+const siteUrl = deploymentHost.startsWith("http") ? deploymentHost : `https://${deploymentHost}`;
+
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
@@ -21,7 +28,7 @@ const bitter = Bitter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://veloxteam.app"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Velox Running",
     template: "%s | Velox Running",
@@ -37,23 +44,22 @@ export const metadata: Metadata = {
     description:
       "Entrenamientos personalizados, grupos y una comunidad que suma kilómetros con vos.",
     url: "/",
-    images: [{ url: "/social-share.png", width: 1200, height: 630, alt: "Velox Running Team" }],
+    images: [{ url: "/velox-share.png", width: 1200, height: 1200, alt: "Velox Running Team" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Velox Running Team",
     description:
       "Entrenamientos personalizados, grupos y una comunidad que suma kilómetros con vos.",
-    images: ["/social-share.png"],
+    images: ["/velox-share.png"],
   },
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-512.png", sizes: "512x512", type: "image/png" },
-      { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
     ],
-    apple: "/favicon-180.png",
+    apple: [{ url: "/app-icon-180.png", sizes: "180x180", type: "image/png" }],
   },
 };
 

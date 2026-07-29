@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!noticia) return { title: "Noticia no encontrada" };
 
   const description = noticia.bajada ?? excerpt(noticia.contenido);
-  const image = noticia.imagen_url ?? "/social-share.png";
+  const image = noticia.imagen_url ?? "/velox-share.png";
   return {
     title: noticia.titulo,
     description,

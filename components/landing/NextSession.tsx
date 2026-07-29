@@ -28,7 +28,8 @@ export function NextSession({
         </RevealOnScroll>
 
         <RevealOnScroll delay={100} className="mt-8">
-          <DarkCard className="grid gap-8 sm:grid-cols-[1.4fr_1fr] sm:p-10">
+          <DarkCard className="sm:p-10">
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,1fr)] lg:gap-16">
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-brand-300">
                 <Zap className="h-3.5 w-3.5" />
@@ -42,12 +43,12 @@ export function NextSession({
                   {grupo.descripcion}
                 </p>
               )}
-              <ButtonLink href="/registro" variant="primary" size="md" className="mt-7">
+              <ButtonLink href="/registro" variant="primary" size="md" className="mt-8">
                 Sumarme a este grupo
               </ButtonLink>
             </div>
 
-            <dl className="mt-10 flex flex-col justify-center gap-5 border-t border-white/10 pt-8 text-sm sm:mt-0 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+            <dl className="flex flex-col justify-center gap-6 border-t border-white/10 pt-9 text-sm lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
               <div className="flex items-start gap-3">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-brand-300" />
                 <div>
@@ -78,6 +79,7 @@ export function NextSession({
                 </div>
               )}
             </dl>
+            </div>
           </DarkCard>
         </RevealOnScroll>
       </div>

@@ -17,11 +17,11 @@ export function Logo({
   const content = (
     <span className={cn("flex items-center gap-3", className)}>
       <span
-        className="block shrink-0 overflow-hidden"
+        className="block shrink-0 overflow-hidden rounded-full"
         style={{ width: dims, height: dims }}
       >
         <Image
-          src="/veloximg.jpg"
+          src="/veloximg-circle.png"
           alt="Velox Running Team"
           width={dims}
           height={dims}

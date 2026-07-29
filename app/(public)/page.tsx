@@ -54,7 +54,9 @@ export default async function LandingPage() {
 
   // Best-effort: profiles aren't publicly readable via RLS, so this quietly
   // resolves to null for anonymous visitors — NextSession handles that fine.
-  let profesorNombre: string | null = null;
+  // Public profile reads are intentionally blocked by RLS. Use the team's
+  // public-facing coach name unless an authenticated lookup returns another one.
+  let profesorNombre: string | null = "Andrés Navarro";
   if (featuredGrupo?.profesor_id) {
     const { data: profesor } = await supabase
       .from("profiles")

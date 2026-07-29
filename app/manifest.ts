@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Velox Running",
-    short_name: "Velox Team",
+    short_name: "Velox Running",
     description: "Entrenamiento, comunidad y seguimiento para corredores de todos los niveles.",
     start_url: "/",
     display: "standalone",
@@ -11,8 +11,8 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#078150",
     orientation: "portrait-primary",
     icons: [
-      { src: "/favicon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/favicon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/app-icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/app-icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
     ],
   };
 }
