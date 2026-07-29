@@ -5,7 +5,7 @@ import { Plus, FileText, Check } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Label, Input, Select, FieldError } from "@/components/ui/Field";
+import { Label, Input, Select } from "@/components/ui/Field";
 import { StatusPill, type PillStatus } from "@/components/ui/StatusPill";
 import { Alert } from "@/components/ui/Alert";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -70,6 +70,8 @@ export function CuotasManager({
   );
 
   useEffect(() => {
+    // Fetch the selected month's remote billing records.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (mes !== mesInicial) loadCuotas(mes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mes]);

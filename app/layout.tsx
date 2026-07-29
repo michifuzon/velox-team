@@ -21,14 +21,37 @@ const bitter = Bitter({
 });
 
 export const metadata: Metadata = {
-  title: "Velox Running Team | Running",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://veloxteam.app"),
+  title: {
+    default: "Velox Running",
+    template: "%s | Velox Running",
+  },
   description:
-    "Plataforma de entrenamiento de Velox Running Team: planes, grupos, asistencia, cuotas y seguimiento deportivo.",
+    "Velox Running Team: entrenamiento, comunidad y seguimiento profesional para corredores de todos los niveles.",
+  applicationName: "Velox Running",
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    siteName: "Velox Running",
+    title: "Velox Running Team",
+    description:
+      "Entrenamientos personalizados, grupos y una comunidad que suma kilómetros con vos.",
+    url: "/",
+    images: [{ url: "/social-share.png", width: 1200, height: 630, alt: "Velox Running Team" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Velox Running Team",
+    description:
+      "Entrenamientos personalizados, grupos y una comunidad que suma kilómetros con vos.",
+    images: ["/social-share.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
     ],
     apple: "/favicon-180.png",
   },

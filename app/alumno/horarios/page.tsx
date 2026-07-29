@@ -88,7 +88,9 @@ export default async function HorariosPage() {
       )}
 
       {grupo && (
-        <UbicacionCard lugar={grupo.lugar} puntoEncuentro={grupo.punto_encuentro} />
+        <div className="mt-3 pb-6 sm:mt-5 sm:pb-2">
+          <UbicacionCard lugar={grupo.lugar} puntoEncuentro={grupo.punto_encuentro} />
+        </div>
       )}
     </div>
   );

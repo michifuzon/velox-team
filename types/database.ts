@@ -271,6 +271,7 @@ export type NoticiaRow = {
   bajada: string | null;
   contenido: string;
   imagen_url: string | null;
+  imagenes_adicionales: string[];
   categoria: string;
   autor_id: string | null;
   publicado: boolean;

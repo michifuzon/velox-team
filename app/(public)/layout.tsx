@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
-import { ButtonLink } from "@/components/ui/Button";
+import { getCurrentProfile } from "@/lib/auth";
+import { AccessMenu } from "@/components/layout/AccessMenu";
 
 const FOOTER_LINKS = [
   { label: "Sobre Velox Running Team", href: "/#sobre" },
@@ -11,32 +12,19 @@ const FOOTER_LINKS = [
   { label: "Contacto", href: "/#contacto" },
 ];
 
-export default function PublicLayout({
+export default async function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const profile = await getCurrentProfile();
+
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-ink-950/8 bg-mist-100/95 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:h-20 sm:px-6">
           <Logo href="/" size="sm" />
-          <div className="flex items-center gap-2 sm:gap-3">
-            <ButtonLink
-              href="/login"
-              variant="outline"
-              size="sm"
-              className="hidden sm:inline-flex"
-            >
-              Iniciar sesión
-            </ButtonLink>
-            <ButtonLink href="/login" variant="outline" size="sm" className="sm:hidden">
-              Entrar
-            </ButtonLink>
-            <ButtonLink href="/registro" variant="primary" size="sm">
-              Sumarme
-            </ButtonLink>
-          </div>
+          <AccessMenu role={profile?.role ?? null} />
         </div>
       </header>
 

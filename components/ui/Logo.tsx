@@ -17,7 +17,7 @@ export function Logo({
   const content = (
     <span className={cn("flex items-center gap-3", className)}>
       <span
-        className="block shrink-0 overflow-hidden rounded-full"
+        className="block shrink-0 overflow-hidden"
         style={{ width: dims, height: dims }}
       >
         <Image

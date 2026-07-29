@@ -121,11 +121,15 @@ export function AsistenciaManager({
   );
 
   useEffect(() => {
+    // These callbacks fetch remote data in response to the selected group.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadAlumnos(grupoId);
     loadStats(grupoId);
   }, [grupoId, loadAlumnos, loadStats]);
 
   useEffect(() => {
+    // Fetch the attendance sheet whenever its external query inputs change.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadAsistencia(grupoId, fecha, alumnos);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [grupoId, fecha, alumnos]);

@@ -30,6 +30,7 @@ type FormState = {
   bajada: string;
   contenido: string;
   imagen_url: string;
+  imagenes_adicionales: string;
   categoria: string;
   publicado: boolean;
 };
@@ -39,6 +40,7 @@ const EMPTY_FORM: FormState = {
   bajada: "",
   contenido: "",
   imagen_url: "",
+  imagenes_adicionales: "",
   categoria: CATEGORIAS_NOTICIA[0],
   publicado: false,
 };
@@ -49,6 +51,7 @@ function noticiaToForm(n: NoticiaRow): FormState {
     bajada: n.bajada ?? "",
     contenido: n.contenido,
     imagen_url: n.imagen_url ?? "",
+    imagenes_adicionales: (n.imagenes_adicionales ?? []).join("\n"),
     categoria: n.categoria,
     publicado: n.publicado,
   };
@@ -106,6 +109,18 @@ function NoticiaFormFields({
           </Select>
         </div>
       </div>
+      <div>
+        <Label>Imágenes adicionales (opcionales)</Label>
+        <Textarea
+          rows={3}
+          placeholder={"Una URL por línea\nhttps://..."}
+          value={form.imagenes_adicionales}
+          onChange={(e) => setForm({ ...form, imagenes_adicionales: e.target.value })}
+        />
+        <p className="mt-1.5 text-xs text-ink-700/50">
+          Se mostrarán como galería al final de la noticia.
+        </p>
+      </div>
       <label className="flex items-center gap-2.5 text-sm text-ink-700/70">
         <input
           type="checkbox"
@@ -154,6 +169,10 @@ export function NoticiasManager({
       bajada: createForm.bajada.trim() || null,
       contenido: createForm.contenido.trim(),
       imagen_url: createForm.imagen_url.trim() || null,
+      imagenes_adicionales: createForm.imagenes_adicionales
+        .split("\n")
+        .map((url) => url.trim())
+        .filter(Boolean),
       categoria: createForm.categoria,
       publicado: createForm.publicado,
       autor_id: staffId,
@@ -187,6 +206,10 @@ export function NoticiasManager({
         bajada: editForm.bajada.trim() || null,
         contenido: editForm.contenido.trim(),
         imagen_url: editForm.imagen_url.trim() || null,
+        imagenes_adicionales: editForm.imagenes_adicionales
+          .split("\n")
+          .map((url) => url.trim())
+          .filter(Boolean),
         categoria: editForm.categoria,
         publicado: editForm.publicado,
         updated_at: new Date().toISOString(),
