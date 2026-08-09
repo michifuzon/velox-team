@@ -3,7 +3,7 @@ export type Ubicacion = {
   direccion: string;
 };
 
-// Las dos sedes reales de Velox Running Team. El mapa se arma por búsqueda (nombre +
+// Las dos sedes reales de Veloz Running Team. El mapa se arma por búsqueda (nombre +
 // dirección), sin depender de coordenadas exactas ni de una API key de Google.
 export const UBICACIONES: Record<string, Ubicacion> = {
   "Parque del Kempes": {

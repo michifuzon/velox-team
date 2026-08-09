@@ -18,13 +18,13 @@ export function Hero() {
 
       <div className="relative mx-auto w-full max-w-7xl px-4 pb-16 pt-32 sm:px-6 sm:pb-24">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-brand-300">
-          Velox Running Team
+          Veloz Running Team
         </p>
         <h1 className="max-w-3xl font-display text-5xl font-bold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
           Entrená con un equipo. Superá tus propios límites.
         </h1>
         <p className="mt-6 max-w-xl text-base text-white/80 sm:text-lg">
-          Grupos de entrenamiento, planes personalizados y un profesor que te
+          Grupos, planes de entrenamiento y un profesor que te
           acompaña en cada kilómetro — desde tu primera salida hasta tu
           próxima meta.
         </p>

@@ -201,7 +201,7 @@ export function RegistroForm() {
           <a href="/terminos" target="_blank" className="font-semibold text-brand-700 hover:text-brand-800">
             términos y condiciones
           </a>{" "}
-          y la política de privacidad de Velox Running Team.
+          y la política de privacidad de Veloz Running Team.
         </label>
         <FieldError>{errors.aceptaTerminos?.message}</FieldError>
       </div>

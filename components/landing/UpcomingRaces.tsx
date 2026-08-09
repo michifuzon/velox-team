@@ -27,7 +27,7 @@ export function UpcomingRaces({ carreras }: { carreras: CarreraRow[] }) {
           <SectionHeader
             eyebrow="Calendario"
             title="Próximas carreras"
-            description="Eventos donde el equipo corre junto — anotate y sumate a la delegación Velox."
+            description="Eventos donde el equipo corre junto — anotate y sumate a la delegación Veloz."
           />
         </RevealOnScroll>
 

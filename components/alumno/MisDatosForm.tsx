@@ -159,14 +159,14 @@ export function MisDatosForm({
             <Label htmlFor="dni">DNI</Label>
             <Input id="dni" value={profile.dni ?? ""} disabled />
             <p className="mt-1.5 text-xs text-ink-700/50">
-              Solo el equipo de Velox puede modificar este dato.
+              Solo el equipo de Veloz puede modificar este dato.
             </p>
           </div>
           <div>
             <Label htmlFor="email">Correo electrónico</Label>
             <Input id="email" value={profile.email} disabled />
             <p className="mt-1.5 text-xs text-ink-700/50">
-              Solo el equipo de Velox puede modificar este dato.
+              Solo el equipo de Veloz puede modificar este dato.
             </p>
           </div>
           <div>

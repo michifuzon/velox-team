@@ -1,4 +1,4 @@
-// Demo data seed for Velox Team.
+// Demo data seed for Veloz Team.
 // Usage: NEXT_PUBLIC_SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... node supabase/seed.mjs
 // (both are already in .env.local — run via `npm run seed`)
 
@@ -16,7 +16,7 @@ const admin = createClient(url, serviceKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 
-const DEMO_PASSWORD = "Velox2026!";
+const DEMO_PASSWORD = "Veloz2026!";
 
 async function getOrCreateUser({ email, metadata }) {
   const { data: created, error } = await admin.auth.admin.createUser({
@@ -43,26 +43,26 @@ async function getOrCreateUser({ email, metadata }) {
 console.log("Creando usuarios demo...");
 
 const admin1 = await getOrCreateUser({
-  email: "admin@veloxteam.app",
-  metadata: { role: "admin", nombre: "Profesor", apellido: "Velox" },
+  email: "admin@velozteam.app",
+  metadata: { role: "admin", nombre: "Profesor", apellido: "Veloz" },
 });
 
-const profeAndres = await getOrCreateUser({
-  email: "andres@veloxteam.app",
+const profeJuan = await getOrCreateUser({
+  email: "profesor@velozteam.app",
   metadata: {
     role: "profesor",
-    nombre: "Andrés",
-    apellido: "Navarro",
-    telefono: "3513280435",
+    nombre: "Juan",
+    apellido: "Pérez",
+    telefono: "3517628450",
   },
 });
 
 const alumnosSeed = [
-  { email: "faustina@veloxteam.app", nombre: "Faustina", apellido: "Conte", dni: "46709505" },
-  { email: "martina@veloxteam.app", nombre: "Martina", apellido: "López", dni: "45123456" },
-  { email: "juan@veloxteam.app", nombre: "Juan", apellido: "Pérez", dni: "40987654" },
-  { email: "lucia@veloxteam.app", nombre: "Lucía", apellido: "Gómez", dni: "43555666" },
-  { email: "mateo@veloxteam.app", nombre: "Mateo", apellido: "Rodríguez", dni: "44222333" },
+  { email: "faustina@velozteam.app", nombre: "Faustina", apellido: "Conte", dni: "46709505" },
+  { email: "martina@velozteam.app", nombre: "Martina", apellido: "López", dni: "45123456" },
+  { email: "juan@velozteam.app", nombre: "Juan", apellido: "Pérez", dni: "40987654" },
+  { email: "lucia@velozteam.app", nombre: "Lucía", apellido: "Gómez", dni: "43555666" },
+  { email: "mateo@velozteam.app", nombre: "Mateo", apellido: "Rodríguez", dni: "44222333" },
 ];
 
 const alumnos = {};
@@ -93,9 +93,9 @@ async function getOrInsert(table, matchCol, row) {
 }
 
 const grupoInicial = await getOrInsert("grupos", "nombre", {
-  nombre: "Velox Inicial",
+  nombre: "Veloz Inicial",
   nivel: "principiante",
-  profesor_id: profeAndres.id,
+  profesor_id: profeJuan.id,
   dias: ["Lunes", "Miércoles", "Viernes"],
   horario: "07:00",
   lugar: "Parque Sarmiento",
@@ -105,9 +105,9 @@ const grupoInicial = await getOrInsert("grupos", "nombre", {
 });
 
 const grupoIntermedio = await getOrInsert("grupos", "nombre", {
-  nombre: "Velox Intermedio",
+  nombre: "Veloz Intermedio",
   nivel: "intermedio",
-  profesor_id: profeAndres.id,
+  profesor_id: profeJuan.id,
   dias: ["Martes", "Jueves"],
   horario: "19:00",
   lugar: "Estadio Mario Kempes",
@@ -117,9 +117,9 @@ const grupoIntermedio = await getOrInsert("grupos", "nombre", {
 });
 
 const grupoPerformance = await getOrInsert("grupos", "nombre", {
-  nombre: "Velox Performance",
+  nombre: "Veloz Performance",
   nivel: "avanzado",
-  profesor_id: profeAndres.id,
+  profesor_id: profeJuan.id,
   dias: ["Lunes", "Miércoles", "Viernes", "Sábado"],
   horario: "06:30",
   lugar: "Costanera",
@@ -215,7 +215,7 @@ await admin.from("evaluaciones").insert([
 
 // ============ CARRERAS ============
 await getOrInsert("carreras", "nombre", {
-  nombre: "10K Nocturna Velox",
+  nombre: "10K Nocturna Veloz",
   fecha: "2026-08-15",
   lugar: "Costanera de Córdoba",
   distancia: "10K",
@@ -247,18 +247,18 @@ await admin.from("avisos").insert([
     autor_id: admin1.id,
   },
   {
-    titulo: "Cambio de horario - Velox Inicial",
+    titulo: "Cambio de horario - Veloz Inicial",
     mensaje: "Este viernes entrenamos 30 minutos más tarde por el clima.",
     tipo: "cambio_horario",
     destino: "grupo",
     grupo_id: grupoInicial.id,
-    autor_id: profeAndres.id,
+    autor_id: profeJuan.id,
   },
 ]);
 
-console.log("\nListo. Usuarios demo (contraseña para todos: Velox2026!):");
-console.log("  admin@veloxteam.app        (admin — nota: en producción se usa andres@velox.app)");
-console.log("  andres@veloxteam.app       (profesor)");
+console.log("\nListo. Usuarios demo (contraseña para todos: Veloz2026!):");
+console.log("  admin@velozteam.app        (admin)");
+console.log("  profesor@velozteam.app     (profesor)");
 for (const a of alumnosSeed) console.log(`  ${a.email}  (alumno: ${a.nombre} ${a.apellido})`);
 console.log(
   "\nOjo: los grupos, la cuota y el usuario admin reales se ajustaron a mano después del seed inicial (ver git log). No reejecutes este script sin revisar antes."

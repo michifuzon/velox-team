@@ -21,8 +21,8 @@ export function Logo({
         style={{ width: dims, height: dims }}
       >
         <Image
-          src="/veloximg-circle.png"
-          alt="Velox Running Team"
+          src="/velozimg-circle.png"
+          alt="Veloz Running Team"
           width={dims}
           height={dims}
           className="h-full w-full object-cover"
@@ -36,7 +36,7 @@ export function Logo({
             tone === "dark" ? "text-white" : "text-ink-950"
           )}
         >
-          VELOX
+          VELOZ
         </span>
         <span
           className={cn(
@@ -52,7 +52,7 @@ export function Logo({
 
   if (!href) return content;
   return (
-    <Link href={href} aria-label="Velox Running Team, ir al inicio">
+    <Link href={href} aria-label="Veloz Running Team, ir al inicio">
       {content}
     </Link>
   );

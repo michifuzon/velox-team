@@ -73,7 +73,7 @@ function GrupoFormFields({
         <Input
           value={form.nombre}
           onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-          placeholder="Ej: Velox Inicial"
+          placeholder="Ej: Veloz Inicial"
         />
       </div>
       <div>

@@ -73,7 +73,7 @@ export function TestimonioForm({
         )}
         <p className="mt-3 text-sm text-ink-700/60">
           {aprobado
-            ? "¡Gracias por compartirla! Ya está publicada en la web de Velox Running Team."
+            ? "¡Gracias por compartirla! Ya está publicada en la web de Veloz Running Team."
             : "Gracias por compartirla. Nuestro equipo la está revisando antes de publicarla."}
         </p>
       </Card>
@@ -89,7 +89,7 @@ export function TestimonioForm({
         <h2 className="font-display text-base font-bold text-ink-950">Compartí tu historia</h2>
       </div>
       <p className="mt-2 text-sm text-ink-700/60">
-        Contanos tu historia con Velox Running Team. Si nuestro equipo la aprueba, la vamos a
+        Contanos tu historia con Veloz Running Team. Si nuestro equipo la aprueba, la vamos a
         mostrar en la web para inspirar a otros corredores.
       </p>
       {error && <div className="mt-3"><FieldError>{error}</FieldError></div>}

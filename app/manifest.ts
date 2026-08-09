@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Velox Running",
-    short_name: "Velox Running",
+    name: "Veloz Running",
+    short_name: "Veloz Running",
     description: "Entrenamiento, comunidad y seguimiento para corredores de todos los niveles.",
     start_url: "/",
     display: "standalone",

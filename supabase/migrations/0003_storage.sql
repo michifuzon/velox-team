@@ -1,4 +1,4 @@
--- Velox Team — storage buckets for uploaded files
+-- Veloz Team — storage buckets for uploaded files
 -- Convention: object path always starts with the owning alumno's user id,
 -- e.g. avatars/<uid>/foto.jpg, aptos-medicos/<uid>/apto.pdf
 

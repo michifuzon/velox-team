@@ -1,4 +1,4 @@
--- Velox Team — helper functions, auto-profile trigger, and RLS policies
+-- Veloz Team — helper functions, auto-profile trigger, and RLS policies
 
 -- ============ HELPER FUNCTIONS (security definer to avoid RLS recursion) ============
 
