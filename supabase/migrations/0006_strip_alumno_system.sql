@@ -134,7 +134,14 @@ create policy "galeria_select" on galeria for select
 create policy "galeria_write" on galeria for all
   using (is_admin_or_profesor()) with check (is_admin_or_profesor());
 
--- ============ STORAGE: drop athlete-only buckets, add a shared public media bucket ============
+-- ============ STORAGE: revoke access to athlete-only buckets, add a shared public media bucket ============
+-- Supabase blocks direct SQL deletes on storage.objects/storage.buckets
+-- (storage.protect_delete()), so the old buckets themselves are left in
+-- place — just fully locked down by dropping their policies (no policy +
+-- RLS enabled by default = no access at all). Delete the actual buckets
+-- "aptos-medicos", "comprobantes" and "entrenamientos" by hand from the
+-- Supabase dashboard (Storage section) once you've confirmed nothing in
+-- them is still needed.
 drop policy if exists "aptos_bucket_read" on storage.objects;
 drop policy if exists "aptos_bucket_owner_write" on storage.objects;
 drop policy if exists "aptos_bucket_owner_delete" on storage.objects;
@@ -142,9 +149,6 @@ drop policy if exists "comprobantes_bucket_read" on storage.objects;
 drop policy if exists "comprobantes_bucket_owner_write" on storage.objects;
 drop policy if exists "entrenamientos_bucket_read" on storage.objects;
 drop policy if exists "entrenamientos_bucket_owner_write" on storage.objects;
-
-delete from storage.objects where bucket_id in ('aptos-medicos', 'comprobantes', 'entrenamientos');
-delete from storage.buckets where id in ('aptos-medicos', 'comprobantes', 'entrenamientos');
 
 insert into storage.buckets (id, name, public)
 values ('media', 'media', true)
