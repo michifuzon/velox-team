@@ -68,15 +68,20 @@ alter table profiles alter column role type user_role_new using role::text::user
 drop type user_role;
 alter type user_role_new rename to user_role;
 
--- ============ GRUPOS: drop capacity tracking (no more enrollment) ============
+-- ============ GRUPOS: drop capacity tracking (no more enrollment), nivel optional ============
 alter table grupos drop column if exists cupo_maximo;
+alter table grupos alter column nivel drop not null;
+alter table grupos alter column nivel drop default;
 
--- ============ CONFIGURACION: drop cuota/payment fields ============
+-- ============ CONFIGURACION: drop cuota/payment fields, fake email, unused legal texts ============
 alter table configuracion
   drop column if exists monto_cuota_general,
   drop column if exists dia_vencimiento_cuota,
   drop column if exists metodos_pago,
-  drop column if exists datos_bancarios;
+  drop column if exists datos_bancarios,
+  drop column if exists contacto_email,
+  drop column if exists terminos_condiciones,
+  drop column if exists politica_privacidad;
 
 alter table configuracion alter column nombre_equipo set default 'Velox Running Team';
 update configuracion
@@ -133,6 +138,64 @@ create policy "galeria_select" on galeria for select
   using (true);
 create policy "galeria_write" on galeria for all
   using (is_admin_or_profesor()) with check (is_admin_or_profesor());
+
+-- ============ CONTENIDO EDITABLE: servicios, consejos, preguntas frecuentes ============
+-- Static landing copy the staff can now edit from /staff/contenido instead of
+-- it being hardcoded in the React components.
+create table servicios (
+  id uuid primary key default gen_random_uuid(),
+  titulo text not null,
+  descripcion text not null,
+  orden int not null default 0,
+  created_at timestamptz not null default now()
+);
+alter table servicios enable row level security;
+create policy "servicios_select" on servicios for select using (true);
+create policy "servicios_write" on servicios for all
+  using (is_admin_or_profesor()) with check (is_admin_or_profesor());
+
+create table consejos (
+  id uuid primary key default gen_random_uuid(),
+  titulo text not null,
+  texto text not null,
+  orden int not null default 0,
+  created_at timestamptz not null default now()
+);
+alter table consejos enable row level security;
+create policy "consejos_select" on consejos for select using (true);
+create policy "consejos_write" on consejos for all
+  using (is_admin_or_profesor()) with check (is_admin_or_profesor());
+
+create table faqs (
+  id uuid primary key default gen_random_uuid(),
+  pregunta text not null,
+  respuesta text not null,
+  orden int not null default 0,
+  created_at timestamptz not null default now()
+);
+alter table faqs enable row level security;
+create policy "faqs_select" on faqs for select using (true);
+create policy "faqs_write" on faqs for all
+  using (is_admin_or_profesor()) with check (is_admin_or_profesor());
+
+-- Seed with the copy that used to be hardcoded, so the site doesn't go blank.
+insert into servicios (titulo, descripcion, orden) values
+  ('Grupos de entrenamiento', 'Adaptados a cualquier nivel, con horarios fijos durante toda la semana.', 1),
+  ('Planes individuales', 'Planificación a medida para objetivos y carreras específicas.', 2),
+  ('Seguimiento profesional', 'Evaluaciones periódicas y control de asistencia con tu profesor.', 3),
+  ('Preparación de carreras', 'Acompañamiento antes, durante y después de cada competencia.', 4);
+
+insert into consejos (titulo, texto, orden) values
+  ('Cómo mejorar tu ritmo', 'Trabajar la cadencia y sumar series cortas una vez por semana marca la diferencia en pocas semanas.', 1),
+  ('Qué comer antes de correr', 'Carbohidratos de fácil digestión entre 60 y 90 minutos antes de la salida, sin experimentar el día de la carrera.', 2),
+  ('Cómo elegir tus zapatillas', 'La pisada, el terreno y los kilómetros semanales definen el modelo — no siempre el más caro es el correcto.', 3),
+  ('Errores comunes al empezar a correr', 'Sumar volumen demasiado rápido es la causa número uno de lesiones en corredores nuevos.', 4);
+
+insert into faqs (pregunta, respuesta, orden) values
+  ('¿Necesito experiencia previa para sumarme?', 'No. Andrés arma tu plan según tu nivel actual, así que podés sumarte aunque nunca hayas corrido.', 1),
+  ('¿Cómo elijo mi grupo de entrenamiento?', 'Escribinos por WhatsApp o Instagram y Andrés te ubica en el grupo que mejor se adapte a tu horario y tus objetivos. Todos los grupos son para cualquier capacidad.', 2),
+  ('¿Puedo entrenar aunque no viva cerca de los puntos de encuentro?', 'Sí, muchos alumnos combinan el plan individual con sesiones grupales puntuales.', 3),
+  ('¿Cómo se pagan las cuotas?', 'Por transferencia o efectivo, con vencimiento mensual — el detalle te llega al inscribirte.', 4);
 
 -- ============ STORAGE: revoke access to athlete-only buckets, add a shared public media bucket ============
 -- Supabase blocks direct SQL deletes on storage.objects/storage.buckets

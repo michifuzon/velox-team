@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Newspaper } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { Newspaper } from "lucide-react";
 import type { NoticiaRow } from "@/types/database";
 
 export const metadata: Metadata = {
@@ -38,10 +37,10 @@ export default async function NoticiasIndexPage() {
               <Link
                 key={n.id}
                 href={`/noticias/${n.id}`}
-                className="group overflow-hidden rounded-xl border border-mist-200 bg-white transition-shadow hover:shadow-lg"
+                className="group flex h-full flex-col overflow-hidden rounded-xl border border-mist-200 bg-white transition-shadow hover:shadow-lg"
               >
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-mist-100">
-                  {n.imagen_url && (
+                {n.imagen_url ? (
+                  <div className="relative aspect-[16/10] w-full overflow-hidden">
                     <Image
                       src={n.imagen_url}
                       alt={n.titulo}
@@ -49,15 +48,17 @@ export default async function NoticiasIndexPage() {
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                  )}
-                </div>
-                <div className="p-5">
+                  </div>
+                ) : (
+                  <div className="h-1.5 w-full bg-brand-600" />
+                )}
+                <div className={`flex flex-1 flex-col ${n.imagen_url ? "p-5" : "p-6"}`}>
                   <p className="text-xs font-semibold uppercase tracking-[0.15em] text-brand-700">
                     {n.categoria}
                   </p>
                   <h2 className="mt-2 font-display text-lg font-bold text-ink-950">{n.titulo}</h2>
                   {n.bajada && <p className="mt-1.5 line-clamp-2 text-sm text-ink-700/70">{n.bajada}</p>}
-                  <p className="mt-3 flex items-center gap-1.5 text-xs text-ink-700/50">
+                  <p className="mt-3 flex flex-1 items-end gap-1.5 text-xs text-ink-700/50">
                     <CalendarDays className="h-3.5 w-3.5" />
                     {new Date(n.created_at).toLocaleDateString("es-AR", {
                       day: "numeric",

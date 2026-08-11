@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Newspaper } from "lucide-react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { EmptyState } from "@/components/ui/EmptyState";
 import { RevealOnScroll } from "./RevealOnScroll";
 import type { NoticiaRow } from "@/types/database";
 
@@ -20,6 +18,8 @@ function formatFecha(fecha: string) {
 }
 
 export function NewsGrid({ noticias }: { noticias: NoticiaRow[] }) {
+  if (noticias.length === 0) return null;
+
   return (
     <section id="novedades" className="border-t border-ink-950/8 px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
@@ -31,16 +31,7 @@ export function NewsGrid({ noticias }: { noticias: NoticiaRow[] }) {
           />
         </RevealOnScroll>
 
-        {noticias.length === 0 ? (
-          <RevealOnScroll className="mt-10">
-            <EmptyState
-              icon={Newspaper}
-              title="Todavía no hay novedades publicadas"
-              description="Muy pronto vas a encontrar acá las historias, resultados y consejos de Velox Running Team."
-            />
-          </RevealOnScroll>
-        ) : (
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {noticias.map((noticia, index) => {
               const large = index === 0;
               return (
@@ -96,8 +87,7 @@ export function NewsGrid({ noticias }: { noticias: NoticiaRow[] }) {
                 </RevealOnScroll>
               );
             })}
-          </div>
-        )}
+        </div>
       </div>
     </section>
   );

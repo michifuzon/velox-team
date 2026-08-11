@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Label, Input, Textarea } from "@/components/ui/Field";
+import { Label, Input } from "@/components/ui/Field";
 import { Alert } from "@/components/ui/Alert";
 import type { ConfiguracionRow } from "@/types/database";
 
@@ -23,9 +23,6 @@ export function ConfiguracionForm({
     nombre_equipo: configuracion.nombre_equipo ?? "",
     contacto_whatsapp: configuracion.contacto_whatsapp ?? "",
     contacto_instagram: configuracion.contacto_instagram ?? "",
-    contacto_email: configuracion.contacto_email ?? "",
-    terminos_condiciones: configuracion.terminos_condiciones ?? "",
-    politica_privacidad: configuracion.politica_privacidad ?? "",
     color_primario: configuracion.color_primario ?? "",
   });
   const [saving, setSaving] = useState(false);
@@ -41,9 +38,6 @@ export function ConfiguracionForm({
         nombre_equipo: form.nombre_equipo || null,
         contacto_whatsapp: form.contacto_whatsapp || null,
         contacto_instagram: form.contacto_instagram || null,
-        contacto_email: form.contacto_email || null,
-        terminos_condiciones: form.terminos_condiciones || null,
-        politica_privacidad: form.politica_privacidad || null,
         color_primario: form.color_primario || null,
       })
       .eq("id", 1);
@@ -89,45 +83,12 @@ export function ConfiguracionForm({
             />
           </div>
           <div>
-            <Label>Email de contacto</Label>
-            <Input
-              disabled={readOnly}
-              type="email"
-              value={form.contacto_email}
-              onChange={(e) => setForm({ ...form, contacto_email: e.target.value })}
-            />
-          </div>
-          <div>
             <Label>Color primario</Label>
             <Input
               disabled={readOnly}
               placeholder="#0B4F3C"
               value={form.color_primario}
               onChange={(e) => setForm({ ...form, color_primario: e.target.value })}
-            />
-          </div>
-        </div>
-      </Card>
-
-      <Card>
-        <h2 className="mb-4 font-display text-base font-bold text-ink-950">Textos legales</h2>
-        <div className="flex flex-col gap-4">
-          <div>
-            <Label>Términos y condiciones</Label>
-            <Textarea
-              disabled={readOnly}
-              rows={4}
-              value={form.terminos_condiciones}
-              onChange={(e) => setForm({ ...form, terminos_condiciones: e.target.value })}
-            />
-          </div>
-          <div>
-            <Label>Política de privacidad</Label>
-            <Textarea
-              disabled={readOnly}
-              rows={4}
-              value={form.politica_privacidad}
-              onChange={(e) => setForm({ ...form, politica_privacidad: e.target.value })}
             />
           </div>
         </div>

@@ -7,6 +7,7 @@ import {
   Flag,
   Newspaper,
   Images,
+  FileText,
   Settings,
 } from "lucide-react";
 import { AppNav, type NavItem } from "./AppNav";
@@ -18,6 +19,7 @@ const ITEMS: NavItem[] = [
   { label: "Carreras", href: "/staff/carreras", icon: Flag, primary: true },
   { label: "Noticias", href: "/staff/noticias", icon: Newspaper, primary: true },
   { label: "Galería", href: "/staff/galeria", icon: Images },
+  { label: "Contenido", href: "/staff/contenido", icon: FileText },
   { label: "Configuración", href: "/staff/configuracion", icon: Settings },
 ];
 

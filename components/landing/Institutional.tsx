@@ -1,11 +1,11 @@
 import Image from "next/image";
 import {
+  Camera,
   CalendarClock,
   ChevronDown,
   ClipboardList,
   Flag,
   LineChart,
-  Mail,
   MapPin,
   MessageCircle,
   Users,
@@ -18,7 +18,7 @@ import { STOCK_PHOTOS, unsplashUrl } from "./stock-photos";
 import { RevealOnScroll } from "./RevealOnScroll";
 import { UbicacionCard } from "@/components/shared/UbicacionCard";
 import { UBICACIONES } from "@/lib/ubicaciones";
-import type { GrupoRow } from "@/types/database";
+import type { GrupoRow, ServicioRow, FaqRow } from "@/types/database";
 
 /** Sobre Velox Running Team */
 export function About() {
@@ -59,31 +59,12 @@ export function About() {
   );
 }
 
-const SERVICES = [
-  {
-    icon: Users,
-    title: "Grupos de entrenamiento",
-    desc: "Adaptados a cualquier nivel, con horarios fijos durante toda la semana.",
-  },
-  {
-    icon: ClipboardList,
-    title: "Planes individuales",
-    desc: "Planificación a medida para objetivos y carreras específicas.",
-  },
-  {
-    icon: LineChart,
-    title: "Seguimiento profesional",
-    desc: "Evaluaciones periódicas y control de asistencia con tu profesor.",
-  },
-  {
-    icon: Flag,
-    title: "Preparación de carreras",
-    desc: "Acompañamiento antes, durante y después de cada competencia.",
-  },
-];
+const SERVICE_ICONS = [Users, ClipboardList, LineChart, Flag];
 
 /** Servicios */
-export function Services() {
+export function Services({ servicios }: { servicios: ServicioRow[] }) {
+  if (servicios.length === 0) return null;
+
   return (
     <section id="servicios" className="border-t border-ink-950/8 bg-mist-50 px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
@@ -91,19 +72,22 @@ export function Services() {
           <SectionHeader eyebrow="Qué ofrecemos" title="Servicios" />
         </RevealOnScroll>
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICES.map((s, i) => (
-            <RevealOnScroll key={s.title} delay={i * 90}>
-              <Card className="h-full">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                  <s.icon className="h-5 w-5" />
-                </span>
-                <h3 className="mt-4 font-display text-lg font-bold text-ink-950">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-sm text-ink-700/70">{s.desc}</p>
-              </Card>
-            </RevealOnScroll>
-          ))}
+          {servicios.map((s, i) => {
+            const Icon = SERVICE_ICONS[i % SERVICE_ICONS.length];
+            return (
+              <RevealOnScroll key={s.id} delay={i * 90}>
+                <Card className="h-full">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 font-display text-lg font-bold text-ink-950">
+                    {s.titulo}
+                  </h3>
+                  <p className="mt-2 text-sm text-ink-700/70">{s.descripcion}</p>
+                </Card>
+              </RevealOnScroll>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -195,27 +179,10 @@ export function Team() {
   );
 }
 
-const FAQS = [
-  {
-    q: "¿Necesito experiencia previa para sumarme?",
-    a: "No. Andrés arma tu plan según tu nivel actual, así que podés sumarte aunque nunca hayas corrido.",
-  },
-  {
-    q: "¿Cómo elijo mi grupo de entrenamiento?",
-    a: "Escribinos por WhatsApp o Instagram y Andrés te ubica en el grupo que mejor se adapte a tu horario y tus objetivos. Todos los grupos son para cualquier capacidad.",
-  },
-  {
-    q: "¿Puedo entrenar aunque no viva cerca de los puntos de encuentro?",
-    a: "Sí, muchos alumnos combinan el plan individual con sesiones grupales puntuales.",
-  },
-  {
-    q: "¿Cómo se pagan las cuotas?",
-    a: "Por transferencia o efectivo, con vencimiento mensual — el detalle te llega al inscribirte.",
-  },
-];
-
 /** FAQ */
-export function Faq() {
+export function Faq({ faqs }: { faqs: FaqRow[] }) {
+  if (faqs.length === 0) return null;
+
   return (
     <section id="faq" className="border-t border-ink-950/8 px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-3xl">
@@ -223,14 +190,14 @@ export function Faq() {
           <SectionHeader eyebrow="Dudas frecuentes" title="Preguntas frecuentes" />
         </RevealOnScroll>
         <div className="mt-10 flex flex-col gap-3">
-          {FAQS.map((item, i) => (
-            <RevealOnScroll key={item.q} delay={i * 70}>
+          {faqs.map((item, i) => (
+            <RevealOnScroll key={item.id} delay={i * 70}>
               <details className="group rounded-xl border border-mist-200 bg-white p-5 open:shadow-sm">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-ink-950">
-                  {item.q}
+                  {item.pregunta}
                   <ChevronDown className="h-4 w-4 shrink-0 text-brand-600 transition-transform group-open:rotate-180" />
                 </summary>
-                <p className="mt-3 text-sm text-ink-700/70">{item.a}</p>
+                <p className="mt-3 text-sm text-ink-700/70">{item.respuesta}</p>
               </details>
             </RevealOnScroll>
           ))}
@@ -254,10 +221,6 @@ export function Contact() {
         </RevealOnScroll>
         <RevealOnScroll delay={100} className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-5 text-sm text-white/80">
-            <div className="flex items-center gap-3">
-              <Mail className="h-4 w-4 text-brand-300" />
-              contacto@veloxteam.app
-            </div>
             <a
               href="https://wa.me/543513280435"
               target="_blank"
@@ -266,6 +229,15 @@ export function Contact() {
             >
               <MessageCircle className="h-4 w-4 text-brand-300" />
               +54 351 328 0435
+            </a>
+            <a
+              href="https://instagram.com/velox.run"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 hover:text-white"
+            >
+              <Camera className="h-4 w-4 text-brand-300" />
+              @velox.run
             </a>
             <div className="flex items-center gap-3">
               <MapPin className="h-4 w-4 text-brand-300" />

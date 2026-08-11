@@ -23,7 +23,7 @@ export type ProfileRow = {
 export type GrupoRow = {
   id: string;
   nombre: string;
-  nivel: NivelRunning;
+  nivel: NivelRunning | null;
   profesor_id: string | null;
   dias: string[];
   horario: string | null;
@@ -57,9 +57,6 @@ export type ConfiguracionRow = {
   nombre_equipo: string | null;
   contacto_whatsapp: string | null;
   contacto_instagram: string | null;
-  contacto_email: string | null;
-  terminos_condiciones: string | null;
-  politica_privacidad: string | null;
 };
 
 export type NoticiaRow = {
@@ -83,6 +80,30 @@ export type GaleriaRow = {
   created_at: string;
 };
 
+export type ServicioRow = {
+  id: string;
+  titulo: string;
+  descripcion: string;
+  orden: number;
+  created_at: string;
+};
+
+export type ConsejoRow = {
+  id: string;
+  titulo: string;
+  texto: string;
+  orden: number;
+  created_at: string;
+};
+
+export type FaqRow = {
+  id: string;
+  pregunta: string;
+  respuesta: string;
+  orden: number;
+  created_at: string;
+};
+
 type TableDef<Row> = {
   Row: Row;
   Insert: Partial<Row>;
@@ -99,6 +120,9 @@ export type Database = {
       configuracion: TableDef<ConfiguracionRow>;
       noticias: TableDef<NoticiaRow>;
       galeria: TableDef<GaleriaRow>;
+      servicios: TableDef<ServicioRow>;
+      consejos: TableDef<ConsejoRow>;
+      faqs: TableDef<FaqRow>;
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

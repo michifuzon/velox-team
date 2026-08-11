@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { getCurrentProfile } from "@/lib/auth";
 import { AccessMenu } from "@/components/layout/AccessMenu";
+import { MobileNav } from "@/components/layout/MobileNav";
 
 const NAV_LINKS = [
   { label: "Inicio", href: "/" },
@@ -32,7 +33,7 @@ export default async function PublicLayout({
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-ink-950/8 bg-mist-100/95 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6">
+        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6">
           <Logo href="/" size="sm" />
           <nav className="hidden items-center gap-1 lg:flex">
             {NAV_LINKS.map((link) => (
@@ -45,19 +46,11 @@ export default async function PublicLayout({
               </Link>
             ))}
           </nav>
-          <AccessMenu role={profile?.role ?? null} />
+          <div className="flex items-center gap-1">
+            <AccessMenu role={profile?.role ?? null} />
+            <MobileNav links={NAV_LINKS} />
+          </div>
         </div>
-        <nav className="flex items-center gap-1 overflow-x-auto border-t border-ink-950/8 px-4 py-2 sm:px-6 lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="shrink-0 rounded-lg px-3 py-1.5 text-sm font-semibold text-ink-700/70 transition-colors hover:bg-mist-100 hover:text-ink-950"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
       </header>
 
       <main className="flex-1">{children}</main>
@@ -83,23 +76,6 @@ export default async function PublicLayout({
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
-          <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
-              Legal
-            </p>
-            <ul className="flex flex-col gap-3 text-sm text-white/70">
-              <li>
-                <Link href="/terminos" className="hover:text-white">
-                  Términos y condiciones
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacidad" className="hover:text-white">
-                  Política de privacidad
-                </Link>
-              </li>
             </ul>
           </div>
           <div>

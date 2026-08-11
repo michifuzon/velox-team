@@ -16,7 +16,7 @@ type Profesor = { id: string; nombre: string; apellido: string };
 
 type FormState = {
   nombre: string;
-  nivel: NivelRunning;
+  nivel: NivelRunning | "";
   profesor_id: string;
   dias: string;
   horario: string;
@@ -28,7 +28,7 @@ type FormState = {
 
 const EMPTY_FORM: FormState = {
   nombre: "",
-  nivel: "principiante",
+  nivel: "",
   profesor_id: "",
   dias: "",
   horario: "",
@@ -41,7 +41,7 @@ const EMPTY_FORM: FormState = {
 function grupoToForm(g: GrupoRow): FormState {
   return {
     nombre: g.nombre,
-    nivel: g.nivel,
+    nivel: g.nivel ?? "",
     profesor_id: g.profesor_id ?? "",
     dias: (g.dias ?? []).join(", "),
     horario: g.horario ?? "",
@@ -74,11 +74,12 @@ function GrupoFormFields({
         />
       </div>
       <div>
-        <Label required>Nivel</Label>
+        <Label>Nivel</Label>
         <Select
           value={form.nivel}
-          onChange={(e) => setForm({ ...form, nivel: e.target.value as NivelRunning })}
+          onChange={(e) => setForm({ ...form, nivel: e.target.value as NivelRunning | "" })}
         >
+          <option value="">Sin nivel</option>
           <option value="principiante">Principiante</option>
           <option value="intermedio">Intermedio</option>
           <option value="avanzado">Avanzado</option>
@@ -191,7 +192,7 @@ export function GruposManager({
     setCreating(true);
     const { error } = await supabase.from("grupos").insert({
       nombre: createForm.nombre.trim(),
-      nivel: createForm.nivel,
+      nivel: createForm.nivel || null,
       profesor_id: createForm.profesor_id || null,
       dias: parseDias(createForm.dias),
       horario: createForm.horario || null,
@@ -225,7 +226,7 @@ export function GruposManager({
       .from("grupos")
       .update({
         nombre: editForm.nombre.trim(),
-        nivel: editForm.nivel,
+        nivel: editForm.nivel || null,
         profesor_id: editForm.profesor_id || null,
         dias: parseDias(editForm.dias),
         horario: editForm.horario || null,
@@ -305,7 +306,9 @@ export function GruposManager({
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <p className="font-display text-lg font-bold text-ink-950">{g.nombre}</p>
-                        <p className="text-xs uppercase tracking-wide text-ink-700/50">{g.nivel}</p>
+                        {g.nivel && (
+                          <p className="text-xs uppercase tracking-wide text-ink-700/50">{g.nivel}</p>
+                        )}
                       </div>
                       <StatusPill
                         status={g.estado === "activo" ? "aprobado" : "vencido"}
