@@ -174,7 +174,7 @@ export default async function AlumnoDashboardPage() {
           <AccessRow
             icon={Wallet}
             title="Cuota actual"
-            description="Consultá el monto, vencimiento e historial de pagos."
+            description="Consultá el estado administrativo informado por el profesor."
             status={cuotaStatus}
             href="/alumno/cuota"
           />

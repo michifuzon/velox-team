@@ -28,7 +28,7 @@ export type AlumnoRow = {
 
 function cuotaPill(estado: CuotaEstado | null): { status: PillStatus; label: string } {
   if (!estado) return { status: "pendiente", label: "Sin cuota" };
-  if (estado === "pagada") return { status: "aprobado", label: "Pagada" };
+  if (estado === "pagada") return { status: "aprobado", label: "Al día" };
   if (estado === "bonificada") return { status: "aprobado", label: "Bonificada" };
   if (estado === "vencida") return { status: "vencido", label: "Vencida" };
   if (estado === "cancelada") return { status: "pendiente", label: "Cancelada" };

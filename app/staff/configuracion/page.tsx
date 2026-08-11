@@ -21,7 +21,7 @@ export default async function ConfiguracionPage() {
     <div className="flex flex-col gap-6">
       <SectionHeader
         title="Configuración"
-        description="Datos del equipo, cuota general, medios de pago y textos legales."
+        description="Datos del equipo, registro interno de cuotas y textos legales."
       />
       {!isAdmin && (
         <Alert variant="info">

@@ -23,7 +23,7 @@ export default async function StaffCuotasPage() {
     <div className="flex flex-col gap-6">
       <SectionHeader
         title="Cuotas"
-        description="Seguimiento de cuotas mensuales, comprobantes y pagos pendientes."
+        description="Registro interno del estado de las cuotas. La información se actualiza manualmente y no procesa pagos."
       />
       <CuotasManager
         alumnos={alumnos ?? []}

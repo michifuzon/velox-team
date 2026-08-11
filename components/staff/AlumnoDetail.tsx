@@ -19,7 +19,7 @@ import type {
 } from "@/types/database";
 
 function cuotaPill(estado: CuotaRow["estado"]): { status: PillStatus; label: string } {
-  if (estado === "pagada") return { status: "aprobado", label: "Pagada" };
+  if (estado === "pagada") return { status: "aprobado", label: "Al día" };
   if (estado === "bonificada") return { status: "aprobado", label: "Bonificada" };
   if (estado === "vencida") return { status: "vencido", label: "Vencida" };
   if (estado === "cancelada") return { status: "pendiente", label: "Cancelada" };
@@ -226,7 +226,7 @@ export function AlumnoDetail({
                     <p className="font-semibold text-ink-950">{c.mes}</p>
                     <p className="text-xs text-ink-700/50">
                       ${c.monto.toLocaleString("es-AR")}
-                      {c.fecha_pago ? ` · pagada el ${c.fecha_pago}` : ""}
+                      {c.fecha_pago ? ` · actualizado el ${c.fecha_pago}` : ""}
                     </p>
                   </div>
                   <StatusPill status={p.status} label={p.label} />

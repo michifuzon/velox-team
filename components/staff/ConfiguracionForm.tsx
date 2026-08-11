@@ -119,7 +119,7 @@ export function ConfiguracionForm({
       </Card>
 
       <Card>
-        <h2 className="mb-4 font-display text-base font-bold text-ink-950">Cuotas y pagos</h2>
+        <h2 className="mb-4 font-display text-base font-bold text-ink-950">Registro de cuotas</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <Label>Monto de cuota general</Label>
@@ -142,25 +142,11 @@ export function ConfiguracionForm({
               onChange={(e) => setForm({ ...form, dia_vencimiento_cuota: e.target.value })}
             />
           </div>
-          <div className="sm:col-span-2">
-            <Label>Métodos de pago</Label>
-            <Textarea
-              disabled={readOnly}
-              rows={2}
-              value={form.metodos_pago}
-              onChange={(e) => setForm({ ...form, metodos_pago: e.target.value })}
-            />
-          </div>
-          <div className="sm:col-span-2">
-            <Label>Datos bancarios</Label>
-            <Textarea
-              disabled={readOnly}
-              rows={2}
-              value={form.datos_bancarios}
-              onChange={(e) => setForm({ ...form, datos_bancarios: e.target.value })}
-            />
-          </div>
         </div>
+        <p className="mt-4 text-sm text-ink-700/60">
+          Estos datos se utilizan únicamente para el seguimiento administrativo interno.
+          La aplicación no procesa pagos.
+        </p>
       </Card>
 
       <Card>

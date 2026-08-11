@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Plus, FileText, Check } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -15,10 +15,10 @@ import type { CuotaRow, CuotaEstado } from "@/types/database";
 type Alumno = { id: string; nombre: string; apellido: string };
 
 function pill(estado: CuotaEstado): { status: PillStatus; label: string } {
-  if (estado === "pagada") return { status: "aprobado", label: "Pagada" };
-  if (estado === "bonificada") return { status: "aprobado", label: "Bonificada" };
+  if (estado === "pagada") return { status: "aprobado", label: "Al día" };
+  if (estado === "bonificada") return { status: "aprobado", label: "Al día" };
   if (estado === "vencida") return { status: "vencido", label: "Vencida" };
-  if (estado === "cancelada") return { status: "pendiente", label: "Cancelada" };
+  if (estado === "cancelada") return { status: "pendiente", label: "Sin vigencia" };
   return { status: "pendiente", label: "Pendiente" };
 }
 
@@ -76,7 +76,7 @@ export function CuotasManager({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mes]);
 
-  async function marcarPagada(c: CuotaRow) {
+  async function marcarAlDia(c: CuotaRow) {
     setBusyId(c.id);
     setError(null);
     const { error: updateError } = await supabase
@@ -85,15 +85,10 @@ export function CuotasManager({
       .eq("id", c.id);
     setBusyId(null);
     if (updateError) {
-      setError("No pudimos marcar la cuota como pagada.");
+      setError("No pudimos actualizar el estado de la cuota.");
       return;
     }
     loadCuotas(mes);
-  }
-
-  async function verComprobante(path: string) {
-    const { data } = await supabase.storage.from("comprobantes").createSignedUrl(path, 3600);
-    if (data?.signedUrl) window.open(data.signedUrl, "_blank");
   }
 
   async function handleCrear(e: React.FormEvent) {
@@ -234,21 +229,10 @@ export function CuotasManager({
                             size="sm"
                             type="button"
                             disabled={busyId === c.id}
-                            onClick={() => marcarPagada(c)}
+                            onClick={() => marcarAlDia(c)}
                           >
                             <Check size={14} />
-                            Marcar pagada
-                          </Button>
-                        )}
-                        {c.comprobante_url && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            type="button"
-                            onClick={() => verComprobante(c.comprobante_url!)}
-                          >
-                            <FileText size={14} />
-                            Ver comprobante
+                            Marcar al día
                           </Button>
                         )}
                       </div>
