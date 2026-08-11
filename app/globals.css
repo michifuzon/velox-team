@@ -70,3 +70,14 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+/* Keeps section titles from hiding behind the sticky header when jumping
+   to an anchor like #horarios or #contacto (header is h-16, sm:h-20). */
+html {
+  scroll-padding-top: 5rem;
+}
+@media (min-width: 640px) {
+  html {
+    scroll-padding-top: 6rem;
+  }
+}
