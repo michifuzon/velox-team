@@ -3,11 +3,21 @@ import { Logo } from "@/components/ui/Logo";
 import { getCurrentProfile } from "@/lib/auth";
 import { AccessMenu } from "@/components/layout/AccessMenu";
 
+const NAV_LINKS = [
+  { label: "Inicio", href: "/" },
+  { label: "Velox", href: "/#sobre" },
+  { label: "Horarios", href: "/#horarios" },
+  { label: "Noticias", href: "/noticias" },
+  { label: "Galería", href: "/galeria" },
+  { label: "Contacto", href: "/#contacto" },
+];
+
 const FOOTER_LINKS = [
   { label: "Sobre Velox Running Team", href: "/#sobre" },
-  { label: "Servicios", href: "/#servicios" },
   { label: "Horarios", href: "/#horarios" },
+  { label: "Noticias", href: "/noticias" },
   { label: "Carreras", href: "/#carreras" },
+  { label: "Galería", href: "/galeria" },
   { label: "Preguntas frecuentes", href: "/#faq" },
   { label: "Contacto", href: "/#contacto" },
 ];
@@ -22,10 +32,32 @@ export default async function PublicLayout({
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-ink-950/8 bg-mist-100/95 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:h-20 sm:px-6">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6">
           <Logo href="/" size="sm" />
+          <nav className="hidden items-center gap-1 lg:flex">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-lg px-3 py-2 text-sm font-semibold text-ink-700/70 transition-colors hover:bg-mist-100 hover:text-ink-950"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
           <AccessMenu role={profile?.role ?? null} />
         </div>
+        <nav className="flex items-center gap-1 overflow-x-auto border-t border-ink-950/8 px-4 py-2 sm:px-6 lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="shrink-0 rounded-lg px-3 py-1.5 text-sm font-semibold text-ink-700/70 transition-colors hover:bg-mist-100 hover:text-ink-950"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </header>
 
       <main className="flex-1">{children}</main>
@@ -35,8 +67,8 @@ export default async function PublicLayout({
           <div>
             <Logo href="/" size="sm" tone="dark" />
             <p className="mt-4 max-w-xs text-sm text-white/50">
-              Planes personalizados, grupos de entrenamiento y seguimiento
-              profesional para corredores de todos los niveles.
+              Grupos de entrenamiento, running y trail running para corredores
+              de todos los niveles en Córdoba.
             </p>
           </div>
           <div>

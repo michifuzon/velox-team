@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, GraduationCap, LogIn, UserPlus, Users } from "lucide-react";
+import { ChevronDown, LogIn, Users } from "lucide-react";
 
 type AccessMenuProps = {
-  role: "admin" | "profesor" | "profesor_secundario" | "alumno" | null;
+  role: "admin" | "profesor" | null;
 };
 
 export function AccessMenu({ role }: AccessMenuProps) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const isStaff = role === "admin" || role === "profesor" || role === "profesor_secundario";
+  const isStaff = role === "admin" || role === "profesor";
 
   useEffect(() => {
     function closeOnOutsideClick(event: MouseEvent) {
@@ -28,16 +28,9 @@ export function AccessMenu({ role }: AccessMenuProps) {
     };
   }, []);
 
-  const items = [
-    ...(!role ? [{ label: "Iniciar sesión", href: "/login", icon: LogIn }] : []),
-    ...(!role ? [{ label: "Registrarse", href: "/registro", icon: UserPlus }] : []),
-    ...(role === "alumno"
-      ? [{ label: "Portal del alumno", href: "/alumno/dashboard", icon: GraduationCap }]
-      : []),
-    ...(isStaff
-      ? [{ label: "Panel del profesor", href: "/staff/dashboard", icon: Users }]
-      : []),
-  ];
+  const items = isStaff
+    ? [{ label: "Panel de administración", href: "/staff/dashboard", icon: Users }]
+    : [{ label: "Iniciar sesión", href: "/login", icon: LogIn }];
 
   return (
     <div ref={menuRef} className="relative">
@@ -46,10 +39,10 @@ export function AccessMenu({ role }: AccessMenuProps) {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+        className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg px-3 text-xs font-semibold text-ink-700/50 transition-colors hover:bg-mist-100 hover:text-ink-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
       >
-        {role ? "Mi portal" : "Acceder"}
-        <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
+        {role ? "Admin" : "Acceder"}
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
         <div

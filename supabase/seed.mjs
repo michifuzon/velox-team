@@ -1,4 +1,4 @@
-// Demo data seed for Velox Team.
+// Demo data seed for Velox Running Team's public content site.
 // Usage: NEXT_PUBLIC_SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... node supabase/seed.mjs
 // (both are already in .env.local — run via `npm run seed`)
 
@@ -40,11 +40,19 @@ async function getOrCreateUser({ email, metadata }) {
   throw error;
 }
 
-console.log("Creando usuarios demo...");
+async function getOrInsert(table, matchCol, row) {
+  const { data: existing } = await admin.from(table).select("*").eq(matchCol, row[matchCol]).maybeSingle();
+  if (existing) return existing;
+  const { data: inserted, error } = await admin.from(table).insert(row).select().single();
+  if (error) throw error;
+  return inserted;
+}
 
-const admin1 = await getOrCreateUser({
+console.log("Creando usuarios...");
+
+await getOrCreateUser({
   email: "admin@veloxteam.app",
-  metadata: { role: "admin", nombre: "Profesor", apellido: "Velox" },
+  metadata: { role: "admin", nombre: "Admin", apellido: "Velox" },
 });
 
 const profeAndres = await getOrCreateUser({
@@ -57,163 +65,50 @@ const profeAndres = await getOrCreateUser({
   },
 });
 
-const alumnosSeed = [
-  { email: "faustina@veloxteam.app", nombre: "Faustina", apellido: "Conte", dni: "46709505" },
-  { email: "martina@veloxteam.app", nombre: "Martina", apellido: "López", dni: "45123456" },
-  { email: "juan@veloxteam.app", nombre: "Juan", apellido: "Pérez", dni: "40987654" },
-  { email: "lucia@veloxteam.app", nombre: "Lucía", apellido: "Gómez", dni: "43555666" },
-  { email: "mateo@veloxteam.app", nombre: "Mateo", apellido: "Rodríguez", dni: "44222333" },
-];
+console.log("Cargando horarios...");
 
-const alumnos = {};
-for (const a of alumnosSeed) {
-  const user = await getOrCreateUser({
-    email: a.email,
-    metadata: {
-      role: "alumno",
-      nombre: a.nombre,
-      apellido: a.apellido,
-      dni: a.dni,
-      telefono: "351" + Math.floor(1000000 + Math.random() * 8999999),
-      fecha_nacimiento: "1995-0" + (1 + (a.dni.length % 9)) + "-15",
-    },
-  });
-  alumnos[a.nombre] = user;
-}
-
-console.log("Usuarios listos. Cargando datos relacionales...");
-
-// ============ GRUPOS ============
-async function getOrInsert(table, matchCol, row) {
-  const { data: existing } = await admin.from(table).select("*").eq(matchCol, row[matchCol]).maybeSingle();
-  if (existing) return existing;
-  const { data: inserted, error } = await admin.from(table).insert(row).select().single();
-  if (error) throw error;
-  return inserted;
-}
-
-const grupoInicial = await getOrInsert("grupos", "nombre", {
+await getOrInsert("grupos", "nombre", {
   nombre: "Velox Inicial",
   nivel: "principiante",
   profesor_id: profeAndres.id,
   dias: ["Lunes", "Miércoles", "Viernes"],
-  horario: "07:00",
-  lugar: "Parque Sarmiento",
-  punto_encuentro: "Portón principal",
-  cupo_maximo: 20,
+  horario: "19:30",
+  lugar: "Parque del Kempes",
   descripcion: "Grupo para quienes están arrancando a correr.",
 });
 
-const grupoIntermedio = await getOrInsert("grupos", "nombre", {
+await getOrInsert("grupos", "nombre", {
   nombre: "Velox Intermedio",
   nivel: "intermedio",
   profesor_id: profeAndres.id,
   dias: ["Martes", "Jueves"],
-  horario: "19:00",
-  lugar: "Estadio Mario Kempes",
-  punto_encuentro: "Acceso Norte",
-  cupo_maximo: 15,
+  horario: "19:00 y 19:30",
+  lugar: "Parque del Kempes",
   descripcion: "Para corredores con base aeróbica que buscan bajar tiempos.",
 });
 
-const grupoPerformance = await getOrInsert("grupos", "nombre", {
-  nombre: "Velox Performance",
-  nivel: "avanzado",
+await getOrInsert("grupos", "nombre", {
+  nombre: "Velox Trail Iniciantes",
+  nivel: "principiante",
   profesor_id: profeAndres.id,
-  dias: ["Lunes", "Miércoles", "Viernes", "Sábado"],
-  horario: "06:30",
-  lugar: "Costanera",
-  punto_encuentro: "Puente Centenario",
-  cupo_maximo: 12,
-  descripcion: "Entrenamiento de alta intensidad orientado a competencia.",
+  dias: ["Viernes"],
+  horario: "18:30",
+  lugar: "Reserva Natural San Martín",
+  descripcion: "Trail running para quienes se están iniciando en montaña.",
 });
 
-// ============ INSCRIPCIONES (Mateo queda sin grupo a propósito) ============
-await admin.from("inscripciones_grupo").upsert(
-  [
-    { alumno_id: alumnos["Faustina"].id, grupo_id: grupoInicial.id },
-    { alumno_id: alumnos["Martina"].id, grupo_id: grupoInicial.id },
-    { alumno_id: alumnos["Juan"].id, grupo_id: grupoIntermedio.id },
-    { alumno_id: alumnos["Lucía"].id, grupo_id: grupoPerformance.id },
-  ],
-  { onConflict: "alumno_id,grupo_id" }
-);
+await getOrInsert("grupos", "nombre", {
+  nombre: "Velox Sábados",
+  nivel: "avanzado",
+  profesor_id: profeAndres.id,
+  dias: ["Sábado"],
+  horario: "07:30",
+  lugar: "Parque del Kempes",
+  descripcion: "Dos sábados por mes en el Kempes, un sábado de salida de trail/montaña.",
+});
 
-// ============ FICHA DEPORTIVA (parcial, para probar % de perfil) ============
-await admin.from("fichas_deportivas").upsert(
-  [
-    {
-      alumno_id: alumnos["Faustina"].id,
-      nivel: "principiante",
-      objetivo_principal: "Empezar a correr con regularidad",
-      distancia_preferida: "5 km",
-      dias_disponibles: 3,
-      experiencia_previa: "Ninguna",
-    },
-    {
-      alumno_id: alumnos["Juan"].id,
-      nivel: "intermedio",
-      objetivo_principal: "Bajar tiempo en 10K",
-      distancia_preferida: "10 km",
-      marca_10k: "48:30",
-      dias_disponibles: 4,
-    },
-  ],
-  { onConflict: "alumno_id" }
-);
+console.log("Cargando carreras...");
 
-// ============ APTOS MÉDICOS ============
-await admin.from("aptos_medicos").insert([
-  {
-    alumno_id: alumnos["Faustina"].id,
-    archivo_url: "demo/apto-faustina.pdf",
-    fecha_emision: "2026-03-01",
-    fecha_vencimiento: "2027-03-01",
-    estado: "aprobado",
-  },
-  {
-    alumno_id: alumnos["Martina"].id,
-    archivo_url: "demo/apto-martina.pdf",
-    fecha_emision: "2025-01-10",
-    fecha_vencimiento: "2026-01-10",
-    estado: "vencido",
-  },
-  {
-    alumno_id: alumnos["Juan"].id,
-    archivo_url: "demo/apto-juan.pdf",
-    fecha_emision: "2026-07-20",
-    estado: "en_revision",
-  },
-  {
-    alumno_id: alumnos["Lucía"].id,
-    archivo_url: "demo/apto-lucia.pdf",
-    fecha_emision: "2026-02-15",
-    fecha_vencimiento: "2027-02-15",
-    estado: "aprobado",
-  },
-]);
-
-// ============ CUOTAS (mes actual) ============
-const mesActual = "2026-07";
-await admin.from("cuotas").upsert(
-  [
-    { alumno_id: alumnos["Faustina"].id, mes: mesActual, monto: 15000, fecha_vencimiento: "2026-07-10", estado: "pagada", fecha_pago: "2026-07-05", metodo_pago: "Transferencia" },
-    { alumno_id: alumnos["Martina"].id, mes: mesActual, monto: 15000, fecha_vencimiento: "2026-07-10", estado: "pendiente" },
-    { alumno_id: alumnos["Juan"].id, mes: mesActual, monto: 15000, fecha_vencimiento: "2026-07-10", estado: "vencida" },
-    { alumno_id: alumnos["Lucía"].id, mes: mesActual, monto: 15000, fecha_vencimiento: "2026-07-10", estado: "pagada", fecha_pago: "2026-07-02", metodo_pago: "Efectivo" },
-    { alumno_id: alumnos["Mateo"].id, mes: mesActual, monto: 15000, fecha_vencimiento: "2026-07-10", estado: "pendiente" },
-  ],
-  { onConflict: "alumno_id,mes" }
-);
-
-// ============ EVALUACIONES ============
-await admin.from("evaluaciones").insert([
-  { alumno_id: alumnos["Faustina"].id, tipo: "Test de Cooper", fecha: "2026-05-01", resultado: 2100, unidad: "metros" },
-  { alumno_id: alumnos["Faustina"].id, tipo: "Test de Cooper", fecha: "2026-07-01", resultado: 2350, unidad: "metros", comentario_profesor: "Buena mejora, seguir con series." },
-  { alumno_id: alumnos["Juan"].id, tipo: "Test de 5 km", fecha: "2026-06-01", resultado: 24.5, unidad: "minutos" },
-]);
-
-// ============ CARRERAS ============
 await getOrInsert("carreras", "nombre", {
   nombre: "10K Nocturna Velox",
   fecha: "2026-08-15",
@@ -237,29 +132,18 @@ await getOrInsert("carreras", "nombre", {
   estado: "proxima",
 });
 
-// ============ AVISOS ============
-await admin.from("avisos").insert([
-  {
-    titulo: "Bienvenida a la temporada 2026",
-    mensaje: "Arrancamos una nueva temporada de entrenamientos. ¡Vamos equipo!",
-    tipo: "general",
-    destino: "todos",
-    autor_id: admin1.id,
-  },
-  {
-    titulo: "Cambio de horario - Velox Inicial",
-    mensaje: "Este viernes entrenamos 30 minutos más tarde por el clima.",
-    tipo: "cambio_horario",
-    destino: "grupo",
-    grupo_id: grupoInicial.id,
-    autor_id: profeAndres.id,
-  },
-]);
+console.log("Cargando noticias...");
 
-console.log("\nListo. Usuarios demo (contraseña para todos: Velox2026!):");
-console.log("  admin@veloxteam.app        (admin — nota: en producción se usa andres@velox.app)");
-console.log("  andres@veloxteam.app       (profesor)");
-for (const a of alumnosSeed) console.log(`  ${a.email}  (alumno: ${a.nombre} ${a.apellido})`);
-console.log(
-  "\nOjo: los grupos, la cuota y el usuario admin reales se ajustaron a mano después del seed inicial (ver git log). No reejecutes este script sin revisar antes."
-);
+await getOrInsert("noticias", "titulo", {
+  titulo: "Arrancamos la temporada 2026",
+  bajada: "Nueva temporada de entrenamientos grupales y trail running.",
+  contenido:
+    "Arrancamos una nueva temporada de entrenamientos con Velox Running Team.\n\nSumate a cualquiera de nuestros grupos, para cualquier nivel y capacidad.",
+  categoria: "Novedades del equipo",
+  autor_id: profeAndres.id,
+  publicado: true,
+});
+
+console.log("\nListo. Usuarios (contraseña: Velox2026!):");
+console.log("  admin@veloxteam.app   (admin)");
+console.log("  andres@veloxteam.app  (profesor)");

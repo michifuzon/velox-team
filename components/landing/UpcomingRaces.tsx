@@ -77,7 +77,14 @@ export function UpcomingRaces({ carreras }: { carreras: CarreraRow[] }) {
                   {carrera.descripcion && (
                     <p className="mt-1 text-sm text-ink-700/70">{carrera.descripcion}</p>
                   )}
-                  <ButtonLink href="/registro" variant="outline" size="sm" className="mt-2 self-start">
+                  <ButtonLink
+                    href={carrera.enlace_oficial || "https://wa.me/543513280435"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="outline"
+                    size="sm"
+                    className="mt-2 self-start"
+                  >
                     Quiero correrla con el equipo
                   </ButtonLink>
                 </div>

@@ -5,14 +5,14 @@ import { NewsGrid } from "@/components/landing/NewsGrid";
 import { UpcomingRaces } from "@/components/landing/UpcomingRaces";
 import { TeamStories } from "@/components/landing/TeamStories";
 import { Tips } from "@/components/landing/Tips";
-import { Community, type TestimonioConNombre } from "@/components/landing/Community";
+import { Gallery } from "@/components/landing/Gallery";
 import { About, Services, Schedule, Team, Faq, Contact } from "@/components/landing/Institutional";
-import type { NoticiaRow } from "@/types/database";
+import type { NoticiaRow, GaleriaRow } from "@/types/database";
 
 export default async function LandingPage() {
   const supabase = await createClient();
 
-  const [{ data: grupos }, { data: carreras }, { data: noticias }, { data: testimonios }] =
+  const [{ data: grupos }, { data: carreras }, { data: noticias }, { data: galeria }] =
     await Promise.all([
       supabase
         .from("grupos")
@@ -31,29 +31,18 @@ export default async function LandingPage() {
         .order("created_at", { ascending: false })
         .limit(6),
       supabase
-        .from("testimonios")
-        .select("id, texto, alumno:profiles(nombre)")
-        .eq("aprobado", true)
+        .from("galeria")
+        .select("*")
         .order("created_at", { ascending: false })
-        .limit(6),
+        .limit(8),
     ]);
 
   const gruposList = grupos ?? [];
   const carrerasList = carreras ?? [];
   const noticiasList = (noticias ?? []) as NoticiaRow[];
-  // Embedded/nested selects don't type-infer against our hand-written Database
-  // type — cast via unknown rather than directly, then flatten to a simple shape.
-  const testimoniosList: TestimonioConNombre[] = (
-    (testimonios ?? []) as unknown as Array<{
-      id: string;
-      texto: string;
-      alumno: { nombre: string } | null;
-    }>
-  ).map((t) => ({ id: t.id, texto: t.texto, nombre: t.alumno?.nombre ?? "Alumno de Velox Running Team" }));
+  const galeriaList = (galeria ?? []) as GaleriaRow[];
   const featuredGrupo = gruposList[0] ?? null;
 
-  // Best-effort: profiles aren't publicly readable via RLS, so this quietly
-  // resolves to null for anonymous visitors — NextSession handles that fine.
   // Public profile reads are intentionally blocked by RLS. Use the team's
   // public-facing coach name unless an authenticated lookup returns another one.
   let profesorNombre: string | null = "Andrés Navarro";
@@ -74,7 +63,7 @@ export default async function LandingPage() {
       <UpcomingRaces carreras={carrerasList} />
       <TeamStories />
       <Tips />
-      <Community testimonios={testimoniosList} />
+      <Gallery fotos={galeriaList} />
 
       {/* Compact institutional tail — the magazine sections above are the priority. */}
       <About />

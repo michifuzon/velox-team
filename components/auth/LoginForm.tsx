@@ -40,7 +40,7 @@ export function LoginForm() {
   async function onSubmit(values: LoginInput) {
     setServerError(null);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
     });
@@ -56,15 +56,8 @@ export function LoginForm() {
       localStorage.removeItem(REMEMBER_KEY);
     }
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", data.user.id)
-      .single();
-
     const redirectTo = searchParams.get("redirectTo");
-    const fallback = profile?.role === "alumno" ? "/alumno/dashboard" : "/staff/dashboard";
-    router.push(redirectTo || fallback);
+    router.push(redirectTo || "/staff/dashboard");
     router.refresh();
   }
 

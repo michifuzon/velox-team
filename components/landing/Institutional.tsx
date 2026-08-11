@@ -16,6 +16,8 @@ import { Avatar } from "@/components/ui/Avatar";
 import { ButtonLink } from "@/components/ui/Button";
 import { STOCK_PHOTOS, unsplashUrl } from "./stock-photos";
 import { RevealOnScroll } from "./RevealOnScroll";
+import { UbicacionCard } from "@/components/shared/UbicacionCard";
+import { UBICACIONES } from "@/lib/ubicaciones";
 import type { GrupoRow } from "@/types/database";
 
 /** Sobre Velox Running Team */
@@ -142,6 +144,11 @@ export function Schedule({ grupos }: { grupos: GrupoRow[] }) {
             </RevealOnScroll>
           ))}
         </div>
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {Object.keys(UBICACIONES).map((lugar) => (
+            <UbicacionCard key={lugar} lugar={lugar} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -195,7 +202,7 @@ const FAQS = [
   },
   {
     q: "¿Cómo elijo mi grupo de entrenamiento?",
-    a: "Al registrarte, Andrés te contacta para ubicarte en el grupo que mejor se adapte a tu horario y tus objetivos. Todos los grupos son para cualquier capacidad.",
+    a: "Escribinos por WhatsApp o Instagram y Andrés te ubica en el grupo que mejor se adapte a tu horario y tus objetivos. Todos los grupos son para cualquier capacidad.",
   },
   {
     q: "¿Puedo entrenar aunque no viva cerca de los puntos de encuentro?",
@@ -266,7 +273,12 @@ export function Contact() {
             </div>
           </div>
           <div className="flex flex-wrap gap-3">
-            <ButtonLink href="/registro" size="lg">
+            <ButtonLink
+              href="https://wa.me/543513280435"
+              target="_blank"
+              rel="noopener noreferrer"
+              size="lg"
+            >
               Quiero sumarme
             </ButtonLink>
             <ButtonLink

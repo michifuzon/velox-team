@@ -6,17 +6,30 @@ import { Plus, Pencil, Trash2, X, Newspaper, Eye, EyeOff } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Label, Input, Select, Textarea, FieldError } from "@/components/ui/Field";
+import { Label, Input, Select, Textarea, FieldError, FieldHint } from "@/components/ui/Field";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { EmptyState } from "@/components/ui/EmptyState";
 import type { NoticiaRow } from "@/types/database";
+
+const MAX_IMAGE_MB = 8;
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+async function uploadImage(file: File): Promise<string> {
+  const supabase = createClient();
+  const ext = file.name.split(".").pop();
+  const path = `noticias/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const { error } = await supabase.storage.from("media").upload(path, file);
+  if (error) throw error;
+  const { data } = supabase.storage.from("media").getPublicUrl(path);
+  return data.publicUrl;
+}
 
 export const CATEGORIAS_NOTICIA = [
   "Novedades del equipo",
   "Entrenamientos",
   "Carreras",
   "Resultados",
-  "Historias de alumnos",
+  "Historias del equipo",
   "Nutrición",
   "Técnica",
   "Trail Running",
@@ -60,9 +73,15 @@ function noticiaToForm(n: NoticiaRow): FormState {
 function NoticiaFormFields({
   form,
   setForm,
+  onImageUploaded,
+  uploadingImage,
+  imageError,
 }: {
   form: FormState;
   setForm: (f: FormState) => void;
+  onImageUploaded: (file: File) => void;
+  uploadingImage: boolean;
+  imageError: string | null;
 }) {
   return (
     <div className="flex flex-col gap-4">
@@ -88,12 +107,23 @@ function NoticiaFormFields({
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <Label>Imagen (URL)</Label>
-          <Input
-            placeholder="https://..."
-            value={form.imagen_url}
-            onChange={(e) => setForm({ ...form, imagen_url: e.target.value })}
+          <Label>Imagen principal</Label>
+          {form.imagen_url && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={form.imagen_url} alt="" className="mb-2 h-24 w-full rounded-lg object-cover" />
+          )}
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            disabled={uploadingImage}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) onImageUploaded(file);
+            }}
+            className="block w-full text-sm text-ink-700/70 file:mr-4 file:rounded-lg file:border-0 file:bg-ink-950 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-white hover:file:bg-ink-800"
           />
+          <FieldHint>{uploadingImage ? "Subiendo..." : "JPG, PNG o WebP."}</FieldHint>
+          {imageError && <FieldError>{imageError}</FieldError>}
         </div>
         <div>
           <Label required>Categoría</Label>
@@ -155,6 +185,37 @@ export function NoticiasManager({
 
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
+
+  const [uploadingCreateImage, setUploadingCreateImage] = useState(false);
+  const [createImageError, setCreateImageError] = useState<string | null>(null);
+  const [uploadingEditImage, setUploadingEditImage] = useState(false);
+  const [editImageError, setEditImageError] = useState<string | null>(null);
+
+  async function handleImageUpload(file: File, target: "create" | "edit") {
+    const setUploading = target === "create" ? setUploadingCreateImage : setUploadingEditImage;
+    const setImageError = target === "create" ? setCreateImageError : setEditImageError;
+    const setForm = target === "create" ? setCreateForm : setEditForm;
+    const currentForm = target === "create" ? createForm : editForm;
+
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      setImageError("Formato no admitido. Usá JPG, PNG o WebP.");
+      return;
+    }
+    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+      setImageError(`El archivo supera el tamaño permitido (${MAX_IMAGE_MB} MB).`);
+      return;
+    }
+
+    setImageError(null);
+    setUploading(true);
+    try {
+      const url = await uploadImage(file);
+      setForm({ ...currentForm, imagen_url: url });
+    } catch {
+      setImageError("No pudimos subir la imagen. Probá de nuevo.");
+    }
+    setUploading(false);
+  }
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
@@ -248,7 +309,13 @@ export function NoticiasManager({
         <h2 className="mb-4 font-display text-base font-bold text-ink-950">Nueva noticia</h2>
         {createError && <div className="mb-3"><FieldError>{createError}</FieldError></div>}
         <form onSubmit={handleCreate} className="flex flex-col gap-4">
-          <NoticiaFormFields form={createForm} setForm={setCreateForm} />
+          <NoticiaFormFields
+            form={createForm}
+            setForm={setCreateForm}
+            onImageUploaded={(file) => handleImageUpload(file, "create")}
+            uploadingImage={uploadingCreateImage}
+            imageError={createImageError}
+          />
           <div>
             <Button type="submit" disabled={creating}>
               <Plus size={16} />
@@ -271,7 +338,13 @@ export function NoticiasManager({
                 {isEditing ? (
                   <div className="flex flex-col gap-4">
                     {editError && <FieldError>{editError}</FieldError>}
-                    <NoticiaFormFields form={editForm} setForm={setEditForm} />
+                    <NoticiaFormFields
+                      form={editForm}
+                      setForm={setEditForm}
+                      onImageUploaded={(file) => handleImageUpload(file, "edit")}
+                      uploadingImage={uploadingEditImage}
+                      imageError={editImageError}
+                    />
                     <div className="flex flex-wrap gap-2">
                       <Button size="sm" type="button" disabled={saving} onClick={() => handleSaveEdit(n.id)}>
                         {saving ? "Guardando..." : "Guardar cambios"}

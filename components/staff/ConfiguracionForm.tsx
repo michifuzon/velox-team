@@ -24,10 +24,6 @@ export function ConfiguracionForm({
     contacto_whatsapp: configuracion.contacto_whatsapp ?? "",
     contacto_instagram: configuracion.contacto_instagram ?? "",
     contacto_email: configuracion.contacto_email ?? "",
-    monto_cuota_general: configuracion.monto_cuota_general != null ? String(configuracion.monto_cuota_general) : "",
-    dia_vencimiento_cuota: configuracion.dia_vencimiento_cuota != null ? String(configuracion.dia_vencimiento_cuota) : "",
-    metodos_pago: configuracion.metodos_pago ?? "",
-    datos_bancarios: configuracion.datos_bancarios ?? "",
     terminos_condiciones: configuracion.terminos_condiciones ?? "",
     politica_privacidad: configuracion.politica_privacidad ?? "",
     color_primario: configuracion.color_primario ?? "",
@@ -46,11 +42,6 @@ export function ConfiguracionForm({
         contacto_whatsapp: form.contacto_whatsapp || null,
         contacto_instagram: form.contacto_instagram || null,
         contacto_email: form.contacto_email || null,
-        monto_cuota_general: form.monto_cuota_general === "" ? null : Number(form.monto_cuota_general),
-        dia_vencimiento_cuota:
-          form.dia_vencimiento_cuota === "" ? null : Number(form.dia_vencimiento_cuota),
-        metodos_pago: form.metodos_pago || null,
-        datos_bancarios: form.datos_bancarios || null,
         terminos_condiciones: form.terminos_condiciones || null,
         politica_privacidad: form.politica_privacidad || null,
         color_primario: form.color_primario || null,
@@ -116,37 +107,6 @@ export function ConfiguracionForm({
             />
           </div>
         </div>
-      </Card>
-
-      <Card>
-        <h2 className="mb-4 font-display text-base font-bold text-ink-950">Registro de cuotas</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <Label>Monto de cuota general</Label>
-            <Input
-              disabled={readOnly}
-              type="number"
-              min={0}
-              value={form.monto_cuota_general}
-              onChange={(e) => setForm({ ...form, monto_cuota_general: e.target.value })}
-            />
-          </div>
-          <div>
-            <Label>Día de vencimiento de cuota</Label>
-            <Input
-              disabled={readOnly}
-              type="number"
-              min={1}
-              max={31}
-              value={form.dia_vencimiento_cuota}
-              onChange={(e) => setForm({ ...form, dia_vencimiento_cuota: e.target.value })}
-            />
-          </div>
-        </div>
-        <p className="mt-4 text-sm text-ink-700/60">
-          Estos datos se utilizan únicamente para el seguimiento administrativo interno.
-          La aplicación no procesa pagos.
-        </p>
       </Card>
 
       <Card>

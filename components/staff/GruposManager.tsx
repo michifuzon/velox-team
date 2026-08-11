@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Label, Input, Select, Textarea, FieldError } from "@/components/ui/Field";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { UsersRound } from "lucide-react";
+import { CalendarRange } from "lucide-react";
 import type { GrupoRow, NivelRunning, GrupoEstado } from "@/types/database";
 
 type Profesor = { id: string; nombre: string; apellido: string };
@@ -22,7 +22,6 @@ type FormState = {
   horario: string;
   lugar: string;
   punto_encuentro: string;
-  cupo_maximo: string;
   descripcion: string;
   estado: GrupoEstado;
 };
@@ -35,7 +34,6 @@ const EMPTY_FORM: FormState = {
   horario: "",
   lugar: "",
   punto_encuentro: "",
-  cupo_maximo: "",
   descripcion: "",
   estado: "activo",
 };
@@ -49,7 +47,6 @@ function grupoToForm(g: GrupoRow): FormState {
     horario: g.horario ?? "",
     lugar: g.lugar ?? "",
     punto_encuentro: g.punto_encuentro ?? "",
-    cupo_maximo: g.cupo_maximo != null ? String(g.cupo_maximo) : "",
     descripcion: g.descripcion ?? "",
     estado: g.estado,
   };
@@ -100,15 +97,6 @@ function GrupoFormFields({
             </option>
           ))}
         </Select>
-      </div>
-      <div>
-        <Label>Cupo máximo</Label>
-        <Input
-          type="number"
-          min={0}
-          value={form.cupo_maximo}
-          onChange={(e) => setForm({ ...form, cupo_maximo: e.target.value })}
-        />
       </div>
       <div>
         <Label>Días (separados por coma)</Label>
@@ -164,11 +152,9 @@ function GrupoFormFields({
 export function GruposManager({
   grupos,
   profesores,
-  inscriptosPorGrupo,
 }: {
   grupos: GrupoRow[];
   profesores: Profesor[];
-  inscriptosPorGrupo: Record<string, number>;
 }) {
   const router = useRouter();
   const supabase = createClient();
@@ -211,12 +197,11 @@ export function GruposManager({
       horario: createForm.horario || null,
       lugar: createForm.lugar || null,
       punto_encuentro: createForm.punto_encuentro || null,
-      cupo_maximo: createForm.cupo_maximo ? Number(createForm.cupo_maximo) : null,
       descripcion: createForm.descripcion || null,
     });
     setCreating(false);
     if (error) {
-      setCreateError("No pudimos crear el grupo. Probá de nuevo.");
+      setCreateError("No pudimos crear el horario. Probá de nuevo.");
       return;
     }
     setCreateForm(EMPTY_FORM);
@@ -246,7 +231,6 @@ export function GruposManager({
         horario: editForm.horario || null,
         lugar: editForm.lugar || null,
         punto_encuentro: editForm.punto_encuentro || null,
-        cupo_maximo: editForm.cupo_maximo ? Number(editForm.cupo_maximo) : null,
         descripcion: editForm.descripcion || null,
         estado: editForm.estado,
       })
@@ -260,17 +244,23 @@ export function GruposManager({
     router.refresh();
   }
 
+  async function handleDelete(id: string) {
+    if (!window.confirm("¿Eliminar este horario? Esta acción no se puede deshacer.")) return;
+    await supabase.from("grupos").delete().eq("id", id);
+    router.refresh();
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <Card>
-        <h2 className="mb-4 font-display text-base font-bold text-ink-950">Crear grupo</h2>
+        <h2 className="mb-4 font-display text-base font-bold text-ink-950">Nuevo horario</h2>
         {createError && <div className="mb-3"><FieldError>{createError}</FieldError></div>}
         <form onSubmit={handleCreate} className="flex flex-col gap-4">
           <GrupoFormFields form={createForm} setForm={setCreateForm} profesores={profesores} />
           <div>
             <Button type="submit" disabled={creating}>
               <Plus size={16} />
-              {creating ? "Creando..." : "Crear grupo"}
+              {creating ? "Creando..." : "Crear horario"}
             </Button>
           </div>
         </form>
@@ -278,13 +268,12 @@ export function GruposManager({
 
       {grupos.length === 0 ? (
         <Card>
-          <EmptyState icon={UsersRound} title="Todavía no hay grupos creados" />
+          <EmptyState icon={CalendarRange} title="Todavía no hay horarios creados" />
         </Card>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {grupos.map((g) => {
             const isEditing = editingId === g.id;
-            const ocupados = inscriptosPorGrupo[g.id] ?? 0;
             return (
               <Card key={g.id} accent>
                 {isEditing ? (
@@ -327,22 +316,29 @@ export function GruposManager({
                       <p>Profesor: {profesorNombre(g.profesor_id)}</p>
                       <p>{(g.dias ?? []).join(", ") || "Sin días definidos"} · {g.horario ?? "—"}</p>
                       <p>{g.lugar ?? "—"}</p>
-                      <p>
-                        Cupo: {ocupados}
-                        {g.cupo_maximo != null ? ` / ${g.cupo_maximo}` : ""} inscriptos
-                      </p>
                       {g.descripcion && <p className="text-ink-700/60">{g.descripcion}</p>}
                     </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      type="button"
-                      className="mt-4"
-                      onClick={() => startEdit(g)}
-                    >
-                      <Pencil size={14} />
-                      Editar
-                    </Button>
+                    <div className="mt-4 flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        type="button"
+                        onClick={() => startEdit(g)}
+                      >
+                        <Pencil size={14} />
+                        Editar
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        type="button"
+                        onClick={() => handleDelete(g.id)}
+                        className="text-status-overdue-fg hover:bg-status-overdue-bg"
+                      >
+                        <X size={14} />
+                        Eliminar
+                      </Button>
+                    </div>
                   </>
                 )}
               </Card>

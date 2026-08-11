@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoginForm } from "@/components/auth/LoginForm";
-import { ButtonLink } from "@/components/ui/Button";
 
 export default function LoginPage() {
   return (
@@ -11,7 +10,7 @@ export default function LoginPage() {
           Iniciar sesión
         </h1>
         <p className="mt-1 text-sm text-ink-700/60">
-          Ingresá con tu correo y contraseña de Velox Running Team.
+          Acceso para el equipo de Velox Running Team.
         </p>
       </div>
       <Card>
@@ -19,12 +18,6 @@ export default function LoginPage() {
           <LoginForm />
         </Suspense>
       </Card>
-      <p className="text-center text-sm text-ink-700/60">
-        ¿Todavía no tenés cuenta?{" "}
-        <ButtonLink href="/registro" variant="ghost" size="sm" className="px-1">
-          Crear una cuenta
-        </ButtonLink>
-      </p>
     </div>
   );
 }

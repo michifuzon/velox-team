@@ -43,7 +43,7 @@ export function NextSession({
                   {grupo.descripcion}
                 </p>
               )}
-              <ButtonLink href="/registro" variant="primary" size="md" className="mt-8">
+              <ButtonLink href="#contacto" variant="primary" size="md" className="mt-8">
                 Sumarme a este grupo
               </ButtonLink>
             </div>

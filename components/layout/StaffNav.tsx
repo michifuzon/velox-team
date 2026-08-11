@@ -3,18 +3,10 @@
 import { useRouter } from "next/navigation";
 import {
   LayoutDashboard,
-  Users,
-  UsersRound,
   Clock,
-  CalendarRange,
-  ClipboardCheck,
-  Wallet,
-  HeartPulse,
-  LineChart,
   Flag,
-  Megaphone,
   Newspaper,
-  Quote,
+  Images,
   Settings,
 } from "lucide-react";
 import { AppNav, type NavItem } from "./AppNav";
@@ -22,18 +14,10 @@ import { createClient } from "@/lib/supabase/client";
 
 const ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/staff/dashboard", icon: LayoutDashboard, primary: true },
-  { label: "Alumnos", href: "/staff/alumnos", icon: Users, primary: true },
-  { label: "Grupos", href: "/staff/grupos", icon: UsersRound },
-  { label: "Horarios", href: "/staff/horarios", icon: Clock },
-  { label: "Planificaciones", href: "/staff/planificaciones", icon: CalendarRange },
-  { label: "Asistencia", href: "/staff/asistencia", icon: ClipboardCheck, primary: true },
-  { label: "Cuotas", href: "/staff/cuotas", icon: Wallet },
-  { label: "Aptos médicos", href: "/staff/aptos-medicos", icon: HeartPulse },
-  { label: "Evaluaciones", href: "/staff/evaluaciones", icon: LineChart },
-  { label: "Carreras", href: "/staff/carreras", icon: Flag },
-  { label: "Avisos", href: "/staff/avisos", icon: Megaphone, primary: true },
-  { label: "Noticias", href: "/staff/noticias", icon: Newspaper },
-  { label: "Testimonios", href: "/staff/testimonios", icon: Quote },
+  { label: "Horarios", href: "/staff/horarios", icon: Clock, primary: true },
+  { label: "Carreras", href: "/staff/carreras", icon: Flag, primary: true },
+  { label: "Noticias", href: "/staff/noticias", icon: Newspaper, primary: true },
+  { label: "Galería", href: "/staff/galeria", icon: Images },
   { label: "Configuración", href: "/staff/configuracion", icon: Settings },
 ];
 

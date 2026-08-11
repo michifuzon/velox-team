@@ -76,11 +76,11 @@ export default async function NoticiaPage({ params }: PageProps) {
     <article className="px-4 py-10 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-4xl">
         <Link
-          href="/#novedades"
+          href="/noticias"
           className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-600"
         >
           <ArrowLeft className="h-4 w-4" />
-          Volver a novedades
+          Volver a noticias
         </Link>
 
         <header className="mt-8 max-w-3xl">

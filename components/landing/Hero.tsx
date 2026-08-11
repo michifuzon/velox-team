@@ -29,7 +29,7 @@ export function Hero() {
           próxima meta.
         </p>
         <div className="mt-9 flex flex-wrap gap-4">
-          <ButtonLink href="/registro" size="lg">
+          <ButtonLink href="#contacto" size="lg">
             Quiero unirme
           </ButtonLink>
           <ButtonLink
