@@ -9,7 +9,7 @@ export function Gallery({ fotos }: { fotos: GaleriaRow[] }) {
   if (fotos.length === 0) return null;
 
   return (
-    <section id="galeria" className="border-t border-ink-950/8 bg-mist-50 px-4 py-16 sm:px-6 sm:py-24">
+    <section id="galeria" className="scroll-mt-24 border-t border-ink-950/8 bg-mist-50 px-4 py-16 sm:scroll-mt-28 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <RevealOnScroll>
           <SectionHeader eyebrow="Momentos del equipo" title="Galería" />

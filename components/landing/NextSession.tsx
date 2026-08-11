@@ -43,8 +43,15 @@ export function NextSession({
                   {grupo.descripcion}
                 </p>
               )}
-              <ButtonLink href="#contacto" variant="primary" size="md" className="mt-8">
-                Sumarme a este grupo
+              <ButtonLink
+                href="https://wa.me/543513280435"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="primary"
+                size="md"
+                className="mt-8"
+              >
+                Contactar por WhatsApp
               </ButtonLink>
             </div>
 

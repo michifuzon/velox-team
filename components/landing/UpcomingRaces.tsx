@@ -21,7 +21,7 @@ export function UpcomingRaces({ carreras }: { carreras: CarreraRow[] }) {
   if (carreras.length === 0) return null;
 
   return (
-    <section id="carreras" className="border-t border-ink-950/8 px-4 py-16 sm:px-6 sm:py-24">
+    <section id="carreras" className="scroll-mt-24 border-t border-ink-950/8 px-4 py-16 sm:scroll-mt-28 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <RevealOnScroll>
           <SectionHeader

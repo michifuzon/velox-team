@@ -23,7 +23,7 @@ import type { GrupoRow, ServicioRow, FaqRow } from "@/types/database";
 /** Sobre Velox Running Team */
 export function About() {
   return (
-    <section id="sobre" className="border-t border-ink-950/8 px-4 py-16 sm:px-6 sm:py-24">
+    <section id="sobre" className="scroll-mt-24 border-t border-ink-950/8 px-4 py-16 sm:scroll-mt-28 sm:px-6 sm:py-24">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-center">
         <RevealOnScroll>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
@@ -66,7 +66,7 @@ export function Services({ servicios }: { servicios: ServicioRow[] }) {
   if (servicios.length === 0) return null;
 
   return (
-    <section id="servicios" className="border-t border-ink-950/8 bg-mist-50 px-4 py-16 sm:px-6 sm:py-24">
+    <section id="servicios" className="scroll-mt-24 border-t border-ink-950/8 bg-mist-50 px-4 py-16 sm:scroll-mt-28 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <RevealOnScroll>
           <SectionHeader eyebrow="Qué ofrecemos" title="Servicios" />
@@ -97,7 +97,7 @@ export function Services({ servicios }: { servicios: ServicioRow[] }) {
 /** Horarios — reuses the real grupos query already fetched in the page. */
 export function Schedule({ grupos }: { grupos: GrupoRow[] }) {
   return (
-    <section id="horarios" className="border-t border-ink-950/8 px-4 py-16 sm:px-6 sm:py-24">
+    <section id="horarios" className="scroll-mt-24 border-t border-ink-950/8 px-4 py-16 sm:scroll-mt-28 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <RevealOnScroll>
           <SectionHeader
@@ -184,7 +184,7 @@ export function Faq({ faqs }: { faqs: FaqRow[] }) {
   if (faqs.length === 0) return null;
 
   return (
-    <section id="faq" className="border-t border-ink-950/8 px-4 py-16 sm:px-6 sm:py-24">
+    <section id="faq" className="scroll-mt-24 border-t border-ink-950/8 px-4 py-16 sm:scroll-mt-28 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-3xl">
         <RevealOnScroll>
           <SectionHeader eyebrow="Dudas frecuentes" title="Preguntas frecuentes" />
@@ -251,7 +251,7 @@ export function Contact() {
               rel="noopener noreferrer"
               size="lg"
             >
-              Quiero sumarme
+              Contactar por WhatsApp
             </ButtonLink>
             <ButtonLink
               href="https://instagram.com/velox.run"

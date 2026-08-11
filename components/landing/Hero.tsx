@@ -29,8 +29,13 @@ export function Hero() {
           próxima meta.
         </p>
         <div className="mt-9 flex flex-wrap gap-4">
-          <ButtonLink href="#contacto" size="lg">
-            Quiero unirme
+          <ButtonLink
+            href="https://wa.me/543513280435"
+            target="_blank"
+            rel="noopener noreferrer"
+            size="lg"
+          >
+            Contactar por WhatsApp
           </ButtonLink>
           <ButtonLink
             href="#novedades"

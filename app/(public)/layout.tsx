@@ -106,9 +106,16 @@ export default async function PublicLayout({
             </ul>
           </div>
         </div>
-        <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-white/40 sm:px-6">
-          © {new Date().getFullYear()} Velox Running Team. Todos los derechos
-          reservados.
+        <div className="flex flex-col items-center gap-2 border-t border-white/10 px-4 py-5 text-center text-xs text-white/40 sm:flex-row sm:justify-between sm:px-6">
+          <p>
+            © {new Date().getFullYear()} Velox Running Team. Todos los derechos
+            reservados.
+          </p>
+          {!profile && (
+            <Link href="/login" className="text-white/25 hover:text-white/60">
+              Staff
+            </Link>
+          )}
         </div>
       </footer>
     </>
