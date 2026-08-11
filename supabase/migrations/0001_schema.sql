@@ -1,4 +1,4 @@
--- Veloz Team — schema inicial
+-- Velox Team — schema inicial
 -- Roles: admin, profesor, profesor_secundario, alumno
 
 create extension if not exists "pgcrypto";
@@ -285,7 +285,7 @@ create table configuracion (
   id int primary key default 1,
   logo_url text,
   color_primario text default '#178A4C',
-  nombre_equipo text default 'Veloz Team',
+  nombre_equipo text default 'Velox Team',
   contacto_whatsapp text,
   contacto_instagram text,
   contacto_email text,

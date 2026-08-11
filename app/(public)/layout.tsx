@@ -4,8 +4,8 @@ import { getCurrentProfile } from "@/lib/auth";
 import { AccessMenu } from "@/components/layout/AccessMenu";
 
 const FOOTER_LINKS = [
-  { label: "Sobre Veloz Running Team", href: "/#sobre" },
-  { label: "Entrenamientos", href: "/#servicios" },
+  { label: "Sobre Velox Running Team", href: "/#sobre" },
+  { label: "Servicios", href: "/#servicios" },
   { label: "Horarios", href: "/#horarios" },
   { label: "Carreras", href: "/#carreras" },
   { label: "Preguntas frecuentes", href: "/#faq" },
@@ -35,7 +35,7 @@ export default async function PublicLayout({
           <div>
             <Logo href="/" size="sm" tone="dark" />
             <p className="mt-4 max-w-xs text-sm text-white/50">
-              Planes de entrenamiento, grupos y seguimiento
+              Planes personalizados, grupos de entrenamiento y seguimiento
               profesional para corredores de todos los niveles.
             </p>
           </div>
@@ -77,7 +77,17 @@ export default async function PublicLayout({
             <ul className="flex flex-col gap-3 text-sm text-white/70">
               <li>
                 <a
-                  href="https://wa.me/5493517628450"
+                  href="https://instagram.com/velox.run"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white"
+                >
+                  Instagram
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/543513280435"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white"
@@ -89,7 +99,7 @@ export default async function PublicLayout({
           </div>
         </div>
         <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-white/40 sm:px-6">
-          © {new Date().getFullYear()} Veloz Running Team. Todos los derechos
+          © {new Date().getFullYear()} Velox Running Team. Todos los derechos
           reservados.
         </div>
       </footer>

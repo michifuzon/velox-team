@@ -27,7 +27,7 @@ export function NewsGrid({ noticias }: { noticias: NoticiaRow[] }) {
           <SectionHeader
             eyebrow="El blog del equipo"
             title="Últimas novedades"
-            description="Historias, resultados y consejos del mundo Veloz Running Team."
+            description="Historias, resultados y consejos del mundo Velox Running Team."
           />
         </RevealOnScroll>
 
@@ -36,7 +36,7 @@ export function NewsGrid({ noticias }: { noticias: NoticiaRow[] }) {
             <EmptyState
               icon={Newspaper}
               title="Todavía no hay novedades publicadas"
-              description="Muy pronto vas a encontrar acá las historias, resultados y consejos de Veloz Running Team."
+              description="Muy pronto vas a encontrar acá las historias, resultados y consejos de Velox Running Team."
             />
           </RevealOnScroll>
         ) : (

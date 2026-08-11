@@ -18,20 +18,20 @@ import { STOCK_PHOTOS, unsplashUrl } from "./stock-photos";
 import { RevealOnScroll } from "./RevealOnScroll";
 import type { GrupoRow } from "@/types/database";
 
-/** Sobre Veloz Running Team */
+/** Sobre Velox Running Team */
 export function About() {
   return (
     <section id="sobre" className="border-t border-ink-950/8 px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-center">
         <RevealOnScroll>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
-            Sobre Veloz Running Team
+            Sobre Velox Running Team
           </p>
           <h2 className="mt-2 font-display text-3xl font-bold text-ink-950 sm:text-4xl">
             Un equipo, no solo un plan de entrenamiento
           </h2>
           <p className="mt-4 max-w-xl text-base text-ink-700/70">
-            Veloz Running Team nació para acompañar a corredores de todos los niveles:
+            Velox Running Team nació para acompañar a corredores de todos los niveles:
             desde quienes dan sus primeros pasos hasta quienes compiten por
             marcas. Entrenamos en grupo, con seguimiento profesional y una
             comunidad que suma kilómetros junto a vos.
@@ -45,7 +45,7 @@ export function About() {
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
             <Image
               src={unsplashUrl(STOCK_PHOTOS.gravelRoadFields, 900)}
-              alt="Corredor de Veloz Running Team entrenando al aire libre"
+              alt="Corredor de Velox Running Team entrenando al aire libre"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover"
@@ -86,7 +86,7 @@ export function Services() {
     <section id="servicios" className="border-t border-ink-950/8 bg-mist-50 px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <RevealOnScroll>
-          <SectionHeader eyebrow="La dinámica del equipo" title="Cómo entrenamos" />
+          <SectionHeader eyebrow="Qué ofrecemos" title="Servicios" />
         </RevealOnScroll>
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map((s, i) => (
@@ -147,10 +147,11 @@ export function Schedule({ grupos }: { grupos: GrupoRow[] }) {
   );
 }
 
+// Static flavor content — reflects the real Velox Running Team roster (single coach).
 const TEAM = [
   {
-    nombre: "Juan",
-    apellido: "Pérez",
+    nombre: "Andrés",
+    apellido: "Navarro",
     rol: "Profesor y fundador",
     bio: "A cargo de la planificación, los grupos y el seguimiento de cada alumno.",
   },
@@ -190,11 +191,11 @@ export function Team() {
 const FAQS = [
   {
     q: "¿Necesito experiencia previa para sumarme?",
-    a: "No. Juan arma tu plan según tu nivel actual, así que podés sumarte aunque nunca hayas corrido.",
+    a: "No. Andrés arma tu plan según tu nivel actual, así que podés sumarte aunque nunca hayas corrido.",
   },
   {
     q: "¿Cómo elijo mi grupo de entrenamiento?",
-    a: "Al registrarte, Juan te contacta para ubicarte en el grupo que mejor se adapte a tu horario y tus objetivos. Todos los grupos son para cualquier capacidad.",
+    a: "Al registrarte, Andrés te contacta para ubicarte en el grupo que mejor se adapte a tu horario y tus objetivos. Todos los grupos son para cualquier capacidad.",
   },
   {
     q: "¿Puedo entrenar aunque no viva cerca de los puntos de encuentro?",
@@ -248,16 +249,16 @@ export function Contact() {
           <div className="flex flex-col gap-5 text-sm text-white/80">
             <div className="flex items-center gap-3">
               <Mail className="h-4 w-4 text-brand-300" />
-              contacto@velozteam.app
+              contacto@veloxteam.app
             </div>
             <a
-              href="https://wa.me/5493517628450"
+              href="https://wa.me/543513280435"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 hover:text-white"
             >
               <MessageCircle className="h-4 w-4 text-brand-300" />
-              +54 351 762 8450
+              +54 351 328 0435
             </a>
             <div className="flex items-center gap-3">
               <MapPin className="h-4 w-4 text-brand-300" />
@@ -267,6 +268,16 @@ export function Contact() {
           <div className="flex flex-wrap gap-3">
             <ButtonLink href="/registro" size="lg">
               Quiero sumarme
+            </ButtonLink>
+            <ButtonLink
+              href="https://instagram.com/velox.run"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              size="lg"
+              className="border-white/30 bg-white/5 text-white hover:border-white hover:bg-white/10 hover:text-white"
+            >
+              Escribinos por Instagram
             </ButtonLink>
           </div>
         </RevealOnScroll>

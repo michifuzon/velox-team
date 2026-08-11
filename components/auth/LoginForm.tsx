@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import Link from "next/link";
 
-const REMEMBER_KEY = "veloz_remember_email";
+const REMEMBER_KEY = "velox_remember_email";
 
 export function LoginForm() {
   const router = useRouter();

@@ -49,14 +49,14 @@ export default async function LandingPage() {
       texto: string;
       alumno: { nombre: string } | null;
     }>
-  ).map((t) => ({ id: t.id, texto: t.texto, nombre: t.alumno?.nombre ?? "Alumno de Veloz Running Team" }));
+  ).map((t) => ({ id: t.id, texto: t.texto, nombre: t.alumno?.nombre ?? "Alumno de Velox Running Team" }));
   const featuredGrupo = gruposList[0] ?? null;
 
   // Best-effort: profiles aren't publicly readable via RLS, so this quietly
   // resolves to null for anonymous visitors — NextSession handles that fine.
   // Public profile reads are intentionally blocked by RLS. Use the team's
   // public-facing coach name unless an authenticated lookup returns another one.
-  let profesorNombre: string | null = "Juan Pérez";
+  let profesorNombre: string | null = "Andrés Navarro";
   if (featuredGrupo?.profesor_id) {
     const { data: profesor } = await supabase
       .from("profiles")

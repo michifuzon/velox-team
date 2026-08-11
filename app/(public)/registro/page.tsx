@@ -10,7 +10,7 @@ export default function RegistroPage() {
           Crear una cuenta
         </h1>
         <p className="mt-1 text-sm text-ink-700/60">
-          Sumate a Veloz Running Team y accedé a tu portal de alumno.
+          Sumate a Velox Running Team y accedé a tu portal de alumno.
         </p>
       </div>
       <Card>

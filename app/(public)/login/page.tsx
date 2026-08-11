@@ -11,7 +11,7 @@ export default function LoginPage() {
           Iniciar sesión
         </h1>
         <p className="mt-1 text-sm text-ink-700/60">
-          Ingresá con tu correo y contraseña de Veloz Running Team.
+          Ingresá con tu correo y contraseña de Velox Running Team.
         </p>
       </div>
       <Card>

@@ -5,9 +5,8 @@ export default function TerminosPage() {
         Términos y condiciones
       </h1>
       <p className="mt-4 text-sm text-ink-700/60">
-        Estamos terminando de redactar las condiciones de uso interno de la
-        aplicación para integrantes de Veloz Team. Esta página se completa en
-        una próxima etapa.
+        Estamos terminando de redactar los términos y condiciones del
+        servicio. Esta página se completa en una próxima etapa.
       </p>
     </div>
   );

@@ -3,7 +3,7 @@
  * Hotlinked from Unsplash's public CDN (no API key required) purely so the
  * new magazine-style landing page has real running photography to work with.
  * Every ID below was checked to resolve on images.unsplash.com before use —
- * swap each one for real Veloz Running Team photography (training sessions, races,
+ * swap each one for real Velox Running Team photography (training sessions, races,
  * the actual coaches and alumnos) as soon as it's available.
  */
 export function unsplashUrl(id: string, width: number) {

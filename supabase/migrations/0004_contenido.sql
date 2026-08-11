@@ -1,4 +1,4 @@
--- Veloz Team — contenido editable: noticias (blog del panel admin) y testimonios de alumnos
+-- Velox Team — contenido editable: noticias (blog del panel admin) y testimonios de alumnos
 
 create table noticias (
   id uuid primary key default gen_random_uuid(),

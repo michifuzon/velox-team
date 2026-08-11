@@ -6,7 +6,7 @@ const deploymentHost =
   process.env.NEXT_PUBLIC_SITE_URL ??
   process.env.VERCEL_PROJECT_PRODUCTION_URL ??
   process.env.VERCEL_URL ??
-  "veloz-team.vercel.app";
+  "veloxteam.app";
 const siteUrl = deploymentHost.startsWith("http") ? deploymentHost : `https://${deploymentHost}`;
 
 const spaceGrotesk = Space_Grotesk({
@@ -19,8 +19,8 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
-// Used only for the "VELOZ TEAM" wordmark — not the general heading font
-// (that stays Space Grotesk).
+// Used only for the "VELOX TEAM" wordmark, matching the serif on the real
+// team banner/flag — not the general heading font (that stays Space Grotesk).
 const bitter = Bitter({
   variable: "--font-brand",
   subsets: ["latin"],
@@ -30,28 +30,28 @@ const bitter = Bitter({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Veloz Running",
-    template: "%s | Veloz Running",
+    default: "Velox Running",
+    template: "%s | Velox Running",
   },
   description:
-    "Aplicación de organización interna de Veloz Running Team para gestionar entrenamientos, horarios y comunicaciones del equipo.",
-  applicationName: "Veloz Running",
+    "Velox Running Team: entrenamiento, comunidad y seguimiento profesional para corredores de todos los niveles.",
+  applicationName: "Velox Running",
   openGraph: {
     type: "website",
     locale: "es_AR",
-    siteName: "Veloz Running",
-    title: "Veloz Running Team",
+    siteName: "Velox Running",
+    title: "Velox Running Team",
     description:
       "Entrenamientos personalizados, grupos y una comunidad que suma kilómetros con vos.",
     url: "/",
-    images: [{ url: "/veloz-share.png", width: 1200, height: 1200, alt: "Veloz Running Team" }],
+    images: [{ url: "/velox-share.png", width: 1200, height: 1200, alt: "Velox Running Team" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Veloz Running Team",
+    title: "Velox Running Team",
     description:
       "Entrenamientos personalizados, grupos y una comunidad que suma kilómetros con vos.",
-    images: ["/veloz-share.png"],
+    images: ["/velox-share.png"],
   },
   icons: {
     icon: [

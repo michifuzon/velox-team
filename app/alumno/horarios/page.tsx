@@ -43,7 +43,7 @@ export default async function HorariosPage() {
           <EmptyState
             icon={Users}
             title="Sin grupo asignado"
-            description="Todavía no formás parte de un grupo. El equipo de Veloz te va a asignar uno pronto."
+            description="Todavía no formás parte de un grupo. El equipo de Velox te va a asignar uno pronto."
           />
         </Card>
       ) : (

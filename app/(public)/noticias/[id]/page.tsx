@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!noticia) return { title: "Noticia no encontrada" };
 
   const description = noticia.bajada ?? excerpt(noticia.contenido);
-  const image = noticia.imagen_url ?? "/veloz-share.png";
+  const image = noticia.imagen_url ?? "/velox-share.png";
   return {
     title: noticia.titulo,
     description,
@@ -96,7 +96,7 @@ export default async function NoticiaPage({ params }: PageProps) {
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-ink-700/55">
             <span className="inline-flex items-center gap-2">
               <UserRound className="h-4 w-4" />
-              {autor ? `${autor.nombre} ${autor.apellido}` : "Veloz Running Team"}
+              {autor ? `${autor.nombre} ${autor.apellido}` : "Velox Running Team"}
             </span>
             <time className="inline-flex items-center gap-2" dateTime={noticia.created_at}>
               <CalendarDays className="h-4 w-4" />
